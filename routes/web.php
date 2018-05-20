@@ -15,11 +15,16 @@ Route::get('/{topic}-{surveyor}', "SurveyController@index");
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/manager', 'HomeController@index')->name('home');
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Route::prefix('manager')->group(function () {
-    Route::get('url', 'HomeController@url')->name('url');
-    Route::get('statistic', 'HomeController@statistic')->name('statistic');
+    Route::get('/', 'HomeController@index')->name('dashboard');
+
+    Route::prefix('topics')->group(function (){
+        Route::get('/', 'TopicController@index')->name('index');
+        Route::post('/listing', 'TopicController@listing')->name('listing');
+        Route::post('/url', 'TopicController@url')->name('url');
+    });
+
 });
 
