@@ -11,10 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/{topic}-{surveyor}', "SurveyController@index");
 
 Auth::routes();
 
-Route::get('/admin', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/manager', 'HomeController@index')->name('home');
+
+Route::prefix('manager')->group(function () {
+    Route::get('url', 'HomeController@url')->name('url');
+    Route::get('statistic', 'HomeController@statistic')->name('statistic');
+});
+

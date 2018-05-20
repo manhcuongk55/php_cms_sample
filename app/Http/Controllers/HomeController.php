@@ -23,6 +23,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return \View::make('manager.statistic');
+    }
+
+    public function url(){
+        return \View::make('manager.url-generation');
+    }
+
+    public function statistic(){
+        return \View::make('manager.statistic');
     }
 }

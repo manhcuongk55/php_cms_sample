@@ -2,6 +2,16 @@
 window._ = require('lodash');
 window.Popper = require('popper.js').default;
 
+
+window.Vue = require('vue');
+
+var numeral = require("numeral");
+
+Vue.filter("number", function (value) {
+	return numeral(value).format("0,0"); // displaying other groupings/separators is possible, look at the docs
+});
+
+
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
@@ -35,7 +45,7 @@ let token = document.head.querySelector('meta[name="csrf-token"]');
 if (token) {
     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    // console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
 /**
