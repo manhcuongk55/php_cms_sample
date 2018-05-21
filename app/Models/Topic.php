@@ -10,27 +10,38 @@ class Topic extends Model
 
     public $timestamps = false;
 
-    public static function get($id){
-    	return Topic::where('id', $id)->first();
-    }
-
-    public function urls()
+    public static function get($id)
     {
-        return $this->hasMany('App\Models\Url');
+        return Topic::where('id', $id)->first();
     }
 
-    public static function listing($start = 0, $length = 10, $keyword = '', $orderBy ='code', $orderType = 'asc', $isCounting = false){
-        $topic = Topic::withCount('urls')
-        ->where('code','LIKE',"%$keyword%")
-        ->orWhere('manager','LIKE',"%$keyword%")
-        ->skip($start)
-        ->take($length);
+    public function surveyors()
+    {
+        return $this->hasMany('App\Models\Surveyor');
+    }
 
-        if($isCounting){
+    public static function listing($start = 0, $length = 10, $keyword = '', $orderBy = 'code', $orderType = 'asc', $isCounting = false)
+    {
+        $topic = Topic::withCount('surveyors')
+            ->withCount(['surveyors as new' => function ($q) {
+                $q->where('status', '=', 0);
+            }])
+            ->withCount(['surveyors as seen' => function ($q) {
+                $q->where('status', '=', 1);
+            }])
+            ->withCount(['surveyors as done' => function ($q) {
+                $q->where('status', '=', 2);
+            }])
+            ->where('code', 'LIKE', "%$keyword%")
+            ->orWhere('manager', 'LIKE', "%$keyword%")
+            ->skip($start)
+            ->take($length);
+
+        if ($isCounting) {
             return $topic->count();
-        }else{
+        } else {
             return $topic->orderBy($orderBy, $orderType)->get();
         }
-
     }
+
 }

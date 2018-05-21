@@ -1,25 +1,21 @@
 /**
- * Created by T420 on 5/20/2018.
+ * Created by T420 on 5/21/2018.
  */
-var Statistics = function () {
+var Dashboard = function () {
     var baseUrl = $('#site_meta').attr('data-baseurl')
-    var tableTopics = null;
+    var tableStatistic = null;
 
     var Constants = {
-        URL: {
-            TOPIC_DATA: baseUrl + '/manager/topics/listing',
-            RENDER_URL: baseUrl + '/manager/topics/url'
-        },
+        URL: {},
         ID: {
-            TABLE_TOPIC: '#table-topics',
-            NUMBER_URL: '#number-url'
+            TABLE_STATISTIC: '#table-statistic'
         }
     }
-    var loadTableTopics = function () {
-        if (tableTopics != null) {
-            tableTopics.ajax.reload();
+    var loadTableStatistics = function () {
+        if (tableStatistic != null) {
+            tableStatistic.ajax.reload();
         } else {
-            tableTopics = $(Constants.ID.TABLE_TOPIC).DataTable({
+            tableStatistic = $(Constants.ID.TABLE_STATISTIC).DataTable({
                 "dom": "<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-5'i><'col-sm-7'p>>",
                 "processing": true,
                 "serverSide": true,
@@ -45,29 +41,25 @@ var Statistics = function () {
                 "columns": [
                     {
                         data: null,
+                        width: '10%',
                         searchable: false,
                         orderable: false
                     },
                     {
                         data: 'code',
+                        width: '20%',
                     },
                     {
                         data: 'manager',
+                        width: '20%',
                     },
                     {
                         data: 'surveyors_count',
-                    },
-                    {
-                        data: 'new',
-                    },
-                    {
-                        data: 'seen',
-                    },
-                    {
-                        data: 'done',
+                        width: '20%',
                     },
                     {
                         data: 'rendered',
+                        width: '30%',
                         className: 'text-right',
                         sortable: false,
                         render: function (data, type, row) {
@@ -81,20 +73,20 @@ var Statistics = function () {
                     {
                         data: null,
                         sortable: false,
-                        className: 'text-center action-group',
+                        className: 'text-center',
                         render: function (data, type, row) {
                             if (row['rendered'] == 0) {
                                 return '<a href="javascript:;" class="btn btn-primary btn-small render-url" data-id="' + row['id'] + '">Tạo URL</a>';
                             } else {
-                                return '<a href="javascript:;" class="btn btn-success btn-small detail-topic" data-id="' + row['id'] + '">Chi tiết</a>'
-                                    + '<a href="javascript:;" class="btn btn-default btn-small export-topic" data-id="' + row['id'] + '">Xuất báo cáo</a>';
+                                return '';
                             }
+
                         }
                     }
                 ]
             });
-            tableTopics.on('order.dt search.dt draw.dt', function () {
-                tableTopics.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
+            tableStatistic.on('order.dt search.dt draw.dt', function () {
+                tableStatistic.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
                     cell.innerHTML = i + 1;
                 });
             });
@@ -104,7 +96,7 @@ var Statistics = function () {
 
     var handleRenderUrl = function () {
         $(document).on('click', '.render-url', function () {
-            var data = tableTopics.row($(this).parents('tr')).data();
+            var data = tableStatistic.row($(this).parents('tr')).data();
             if (data.rendered == 1) {
                 toastr.error('Chủ đề này đã được thống kê', 'Thông báo');
                 return;
@@ -157,7 +149,7 @@ var Statistics = function () {
                 dialog.modal('hide');
                 if (data != null && data.code == 1) {
                     toastr.success('Tạo URL thành công', 'Thông báo');
-                    tableTopics.ajax.reload();
+                    tableStatistic.ajax.reload();
                 } else {
                     toastr.error('Có lỗi xảy ra. Vui lòng thử lại sau', 'Thông báo');
                 }
@@ -170,22 +162,9 @@ var Statistics = function () {
         })
     }
 
-    var handleExportTopic = function () {
-        $(document).on('click', '.export-topic', function () {
-            var data = tableTopics.row($(this).parents('tr')).data();
-            if (data.rendered == 0) {
-                toastr.error('Chủ đề này chưa được khảo sát ', 'Thông báo');
-                return;
-            }
-
-        })
-    }
-
     return {
         init: function () {
-            loadTableTopics();
-            handleRenderUrl();
-            handleExportTopic();
+            loadTableStatistics();
         }
     }
 
@@ -193,5 +172,5 @@ var Statistics = function () {
 }
 
 $(document).ready(function () {
-    Statistics().init();
+    Dashboard().init();
 });

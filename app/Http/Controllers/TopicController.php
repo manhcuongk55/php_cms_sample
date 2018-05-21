@@ -8,9 +8,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Surveyor;
 use App\Models\Topic;
 use Illuminate\Http\Request;
-use App\Models\Url;
 
 class TopicController extends Controller
 {
@@ -63,7 +63,7 @@ class TopicController extends Controller
 
         $id = $request->input('id');
         $number = $request->input('number');
-        $results = Url::renderUrl($id, $number);
+        $results = Surveyor::renderUrl($id, $number);
 
         return response()->json([
             'code' => $results == true ? 1 : 0

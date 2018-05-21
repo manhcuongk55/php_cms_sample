@@ -20,6 +20,9 @@ Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::prefix('manager')->group(function () {
     Route::get('/', 'HomeController@index')->name('dashboard');
 
+    Route::prefix('dashboard')->group(function (){
+        Route::get('/', 'DashboardController@index')->name('index');
+    });
     Route::prefix('topics')->group(function (){
         Route::get('/', 'TopicController@index')->name('index');
         Route::post('/listing', 'TopicController@listing')->name('listing');

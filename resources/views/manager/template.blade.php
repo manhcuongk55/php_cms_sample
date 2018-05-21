@@ -29,6 +29,7 @@
     <!-- Custom CSS -->
 
     <link href="{{url('/')}}/css/style.css" rel="stylesheet" type="text/css">
+    <link href="{{url('/')}}/css/custom.css" rel="stylesheet" type="text/css">
     @yield('style')
 </head>
 
@@ -86,7 +87,7 @@
     <!-- /Top Menu Items -->
 
     <!-- Left Sidebar Menu -->
-@include('manager.sidebar')
+{{--@include('manager.sidebar')--}}
 <!-- /Left Sidebar Menu -->
 
     <!-- Right Sidebar Menu -->
