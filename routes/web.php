@@ -27,6 +27,7 @@ Route::prefix('manager')->group(function () {
         Route::get('/', 'TopicController@index')->name('index');
         Route::post('/listing', 'TopicController@listing')->name('listing');
         Route::post('/url', 'TopicController@url')->name('url');
+        Route::get('/export', 'TopicController@export')->name('export');
     });
 
 });

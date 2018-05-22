@@ -29,7 +29,7 @@ class Surveyor extends Model
         for ($i = 1; $i <= $number; $i++) {
             $arr = [
                 'id' => $urlId,
-                'url' => '/' . base64_encode('hash=' . substr(md5(openssl_random_pseudo_bytes(20)), -32) . '&topic=' . $topic->code . '&stt=' . $urlId),
+                'url' => '/hash=' . substr(md5(openssl_random_pseudo_bytes(20)), -32) . '&topic=' . $topic->code . '&stt=' . $urlId,
                 'topic_id' => $id,
                 'status'=> 0
             ];
@@ -43,7 +43,20 @@ class Surveyor extends Model
             return $topic->save();
         }
         return false;
+    }
 
+    public static function export($id){
+        $topic = Topic::find($id);
+        if($topic == null){
+            return null;
+        }
+        $surveyors = Surveyor::where('topic_id', $id)->get();
+        $collection = collect($surveyors);
+        $idSurveyors = $collection->map(function ($item, $key) {
+            return $item->id;
+        })->toArray();
+
+        print_r($idSurveyors);die();
 
     }
 }

@@ -8,7 +8,8 @@ var Statistics = function () {
     var Constants = {
         URL: {
             TOPIC_DATA: baseUrl + '/manager/topics/listing',
-            RENDER_URL: baseUrl + '/manager/topics/url'
+            RENDER_URL: baseUrl + '/manager/topics/url',
+            EXPORT_TOPIC: baseUrl + '/manager/topics/export'
         },
         ID: {
             TABLE_TOPIC: '#table-topics',
@@ -86,8 +87,8 @@ var Statistics = function () {
                             if (row['rendered'] == 0) {
                                 return '<a href="javascript:;" class="btn btn-primary btn-small render-url" data-id="' + row['id'] + '">Tạo URL</a>';
                             } else {
-                                return '<a href="javascript:;" class="btn btn-success btn-small detail-topic" data-id="' + row['id'] + '">Chi tiết</a>'
-                                    + '<a href="javascript:;" class="btn btn-default btn-small export-topic" data-id="' + row['id'] + '">Xuất báo cáo</a>';
+                                // return '<a href="javascript:;" class="btn btn-success btn-small detail-topic" data-id="' + row['id'] + '">Chi tiết</a>'
+                                return '<a href="javascript:;" class="btn btn-default btn-small export-topic" data-id="' + row['id'] + '">Xuất báo cáo</a>';
                             }
                         }
                     }
@@ -177,6 +178,24 @@ var Statistics = function () {
                 toastr.error('Chủ đề này chưa được khảo sát ', 'Thông báo');
                 return;
             }
+            // var dialog = bootbox.dialog({
+            //     message: '<p class="text-center">Đang xử lý...</p>',
+            //     closeButton: false
+            // });
+
+            $.fileDownload(Constants.URL.EXPORT_TOPIC, {
+                httpMethod: "GET",
+                data: {
+                    id: data.id
+                },
+                successCallback: function (url) {
+                    dialog.modal('hide');
+                },
+                failCallback: function (responseHtml, url) {
+                    toastr.error('Có lỗi xảy ra. Vui lòng thử lại sau', 'Thông báo');
+                    dialog.modal('hide');
+                }
+            });
 
         })
     }

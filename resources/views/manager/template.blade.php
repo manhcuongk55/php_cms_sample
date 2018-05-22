@@ -583,6 +583,7 @@
 
 <!-- Bootstrap Core JavaScript -->
 <script src="{{url('/')}}/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="{{url('/')}}/../bower_components/jquery-file-download/src/Scripts/jquery.fileDownload.js"></script>
 
 <!-- Vector Maps JavaScript -->
 <script src="{{url('/')}}/vendors/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
