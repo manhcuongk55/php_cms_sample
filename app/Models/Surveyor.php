@@ -13,6 +13,10 @@ class Surveyor extends Model
     	return $this->belongsTo('App\Models\Topic', 'topic_id');
     }
 
+    public function results(){
+    	return $this->hasMany('App\Models\Result');
+    }
+
     public static function get($id){
     	return Surveyor::where('id', $id)->first();
     }

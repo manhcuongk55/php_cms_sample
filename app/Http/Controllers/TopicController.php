@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Answers;
 use App\Models\Category;
+use App\Models\Result;
 use App\Models\Surveyor;
 use App\Models\Topic;
 use Maatwebsite\Excel\Facades\Excel;
@@ -73,7 +74,8 @@ class TopicController extends Controller
         ]);
     }
 
-    public function export(Request $request){
+    public function export(Request $request)
+    {
         $id = $request->input('id');
 
         $cats = Category::with('questions')->get();
@@ -84,24 +86,29 @@ class TopicController extends Controller
         $collection = collect($answers);
         $groupedAnswers = $collection->groupBy('category_id')->toArray();
 
-        Excel::create('Topic statistic', function($excel) use ($groupedCats, $groupedAnswers) {
+        $arrAnswers = $answers->toArray();
+        $surveyors = Surveyor::with('results')->where('topic_id', $id)->get()->toArray();
 
-            $excel->sheet('Detail', function($sheet) use ($groupedCats, $groupedAnswers) {
-                $sheet->setWidth(array(
-                    'A'     =>  5,
-                    'B'     =>  30,
-                    'C'     =>  30,
-                    'D'     =>  30,
-                    'E'     =>  30,
-                    'F'     =>  30,
-                    'G'     =>  30,
-                    'H'     =>  30,
-                    'I'     =>  30,
-                    'J'     =>  30,
-                ));
+        Excel::create('Topic statistic', function ($excel) use ($groupedCats, $groupedAnswers, $surveyors,$arrAnswers) {
+
+            $excel->sheet('Detail', function ($sheet) use ($groupedCats, $groupedAnswers,$surveyors, $arrAnswers) {
+//                $sheet->setWidth(array(
+//                    'A'     =>  5,
+////                    'B'     =>  30,
+//                    'C'     =>  30,
+//                    'D'     =>  30,
+//                    'E'     =>  30,
+//                    'F'     =>  30,
+//                    'G'     =>  30,
+//                    'H'     =>  30,
+//                    'I'     =>  30,
+//                    'J'     =>  30,
+//                ));
                 $sheet->loadView('manager.topics.partitals.export-topic')
-                ->with('categories', $groupedCats)
-                ->with('answers', $groupedAnswers);
+                    ->with('categories', $groupedCats)
+                    ->with('answers', $groupedAnswers)
+                    ->with('surveyors', $surveyors)
+                    ->with('mapAnswers', $arrAnswers);
                 $sheet->setOrientation('landscape');
             });
 

@@ -6,22 +6,52 @@
 <body>
 <table>
     <tbody>
-    {{--<td>{{ json_encode($categories) }}</td>--}}
-    @foreach($categories as $category)
-        @for($i = 0 ; $i < count($category); $i++)
-            <tr>
-                <td>{{ ($i+1) }}</td>
-                <td colspan="20">{{$category[$i]['content']}}</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
+    <tr>
+        <td>Mã người khảo sát</td>
+        @foreach($categories as $category)
+            @for($i = 0 ; $i < count($category); $i++)
+                <td colspan="{{ count($category[$i]['questions']) }}">{{($i +1).')'.$category[$i]['content']}}</td>
+            @endfor
+        @endforeach
+    </tr>
+    <tr>
+        <td></td>
+        @foreach($categories as $category)
+            @for($i = 0 ; $i < count($category); $i++)
                 @foreach($category[$i]['questions'] as $question)
                     <td>{{ $question['content'] }}</td>
                 @endforeach
-            </tr>
-            <tr></tr>
-        @endfor
+            @endfor
+        @endforeach
+    </tr>
+    @foreach($surveyors as $surveyor)
+        <tr>
+            <td>{{$surveyor['id']}}</td>
+            <?php
+            foreach ($surveyor['results'] as $result) {
+                $check = 1;
+                foreach ($categories as $category) {
+                    if ($check == 0) {
+                        break;
+                    }
+                    for ($i = 0; $i < count($category); $i++) {
+                        if ($check == 0) {
+                            break;
+                        }
+                        foreach ($category[$i]['questions'] as $question) {
+                            if ($question['id'] == $result['question_id']) {
+                                echo '<td>' . $mapAnswers[$result['answer']]['content'] . '</td>';
+                                $check = 0;
+                            }
+                        }
+                    }
+                }
+                if ($check == 1) {
+                    echo '<td></td>';
+                }
+            }
+            ?>
+        </tr>
     @endforeach
     </tbody>
 </table>
