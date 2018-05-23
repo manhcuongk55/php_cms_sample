@@ -7,7 +7,7 @@
  */
 
 namespace App\Http\Controllers;
-
+use App\Models\Topic;
 
 class DashboardController extends Controller
 {
@@ -29,5 +29,18 @@ class DashboardController extends Controller
     public function index()
     {
         return \View::make('manager.dashboard.index');
+    }
+
+
+    public function summaryChart()
+    {
+        $data = Topic::getSummary();
+        return response()->json($data);
+    }
+
+    public function top10Chart()
+    {
+        $data = Topic::getTop10();
+        return response()->json($data);
     }
 }

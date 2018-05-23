@@ -9,7 +9,7 @@ var Statistics = function () {
         URL: {
             TOPIC_DATA: baseUrl + '/manager/topics/listing',
             RENDER_URL: baseUrl + '/manager/topics/url',
-            EXPORT_TOPIC: baseUrl + '/manager/topics/export'
+            EXPORT_TOPIC: baseUrl + '/manager/topics/export',
         },
         ID: {
             TABLE_TOPIC: '#table-topics',
@@ -88,7 +88,7 @@ var Statistics = function () {
                                 return '<a href="javascript:;" class="btn btn-primary btn-small render-url" data-id="' + row['id'] + '">Tạo URL</a>';
                             } else {
                                 // return '<a href="javascript:;" class="btn btn-success btn-small detail-topic" data-id="' + row['id'] + '">Chi tiết</a>'
-                                return '<a href="javascript:;" class="btn btn-default btn-small export-topic" data-id="' + row['id'] + '">Xuất báo cáo</a>';
+                                return '<a href="javascript:;" class="btn btn-success btn-small export-topic" data-id="' + row['id'] + '">Xuất báo cáo</a>';
                             }
                         }
                     }
@@ -199,6 +199,7 @@ var Statistics = function () {
 
         })
     }
+
 
     return {
         init: function () {

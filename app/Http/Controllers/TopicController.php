@@ -77,6 +77,7 @@ class TopicController extends Controller
     public function export(Request $request)
     {
         $id = $request->input('id');
+        $topic = Topic::find($id);
 
         $cats = Category::with('questions')->get();
         $collection = collect($cats);
@@ -89,30 +90,18 @@ class TopicController extends Controller
         $arrAnswers = $answers->toArray();
         $surveyors = Surveyor::with('results')->where('topic_id', $id)->get()->toArray();
 
-        Excel::create('Topic statistic', function ($excel) use ($groupedCats, $groupedAnswers, $surveyors,$arrAnswers) {
+        Excel::create('Topic statistic', function ($excel) use ($groupedCats, $groupedAnswers, $surveyors, $arrAnswers, $topic) {
 
-            $excel->sheet('Detail', function ($sheet) use ($groupedCats, $groupedAnswers,$surveyors, $arrAnswers) {
-//                $sheet->setWidth(array(
-//                    'A'     =>  5,
-////                    'B'     =>  30,
-//                    'C'     =>  30,
-//                    'D'     =>  30,
-//                    'E'     =>  30,
-//                    'F'     =>  30,
-//                    'G'     =>  30,
-//                    'H'     =>  30,
-//                    'I'     =>  30,
-//                    'J'     =>  30,
-//                ));
+            $excel->sheet('Detail', function ($sheet) use ($groupedCats, $groupedAnswers, $surveyors, $arrAnswers, $topic) {
                 $sheet->loadView('manager.topics.partitals.export-topic')
                     ->with('categories', $groupedCats)
                     ->with('answers', $groupedAnswers)
                     ->with('surveyors', $surveyors)
-                    ->with('mapAnswers', $arrAnswers);
+                    ->with('mapAnswers', $arrAnswers)
+                    ->with('topic', $topic);
                 $sheet->setOrientation('landscape');
             });
 
         })->export('xls');
-
     }
 }

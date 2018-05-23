@@ -4,52 +4,109 @@
     <meta charset="utf-8">
 </head>
 <body>
+<style>
+    .header {
+        text-align: center;
+        font-weight: bold;
+        font-size: 20;
+    }
+
+    .sub-header {
+        text-align: center;
+        font-style: italic;
+    }
+
+    .table-title {
+        text-align: center;
+        font-weight: bold;
+        font-size: 13;
+    }
+
+    .table-subtitle {
+        text-align: left;
+        font-style: italic;
+        font-size: 11;
+    }
+
+    .cell-data {
+        border: 1 solid #000;
+    }
+    .row-odd{
+        background: #ececec;
+        border: 1 solid #000;
+    }
+    .row-even{
+        background: #ffffff;
+        border: 1 solid #000;
+    }
+    td{
+        width: 20;
+    }
+</style>
 <table>
     <tbody>
     <tr>
-        <td>Mã người khảo sát</td>
+        <td colspan="6" class="header">THỐNG KÊ CHI TIẾT KHẢO SÁT CHỦ ĐỀ {{$topic->code}}</td>
+    </tr>
+    <tr>
+        <td colspan="6" class="sub-header">Người giám sát: {{$topic->manager}}</td>
+    </tr>
+    <tr></tr>
+    <tr>
+        <td rowspan="2" class="cell-data table-title">Mã người khảo sát</td>
         @foreach($categories as $category)
             @for($i = 0 ; $i < count($category); $i++)
-                <td colspan="{{ count($category[$i]['questions']) }}">{{($i +1).')'.$category[$i]['content']}}</td>
+                <td class="cell-data table-title"
+                    colspan="{{ count($category[$i]['questions']) }}">{{ $category[$i]['content']}}</td>
             @endfor
         @endforeach
     </tr>
     <tr>
-        <td></td>
+        <td class="cell-data"></td>
         @foreach($categories as $category)
             @for($i = 0 ; $i < count($category); $i++)
                 @foreach($category[$i]['questions'] as $question)
-                    <td>{{ $question['content'] }}</td>
+                    <td class="cell-data table-subtitle">{{ $question['content'] }}</td>
                 @endforeach
             @endfor
         @endforeach
     </tr>
+    <?php $index = 1; ?>
     @foreach($surveyors as $surveyor)
-        <tr>
+        <tr class="{{ $index % 2 == 0 ? 'row-even' : 'row-odd'}}">
+
             <td>{{$surveyor['id']}}</td>
             <?php
-            foreach ($surveyor['results'] as $result) {
-                $check = 1;
-                foreach ($categories as $category) {
-                    if ($check == 0) {
-                        break;
-                    }
-                    for ($i = 0; $i < count($category); $i++) {
-                        if ($check == 0) {
-                            break;
-                        }
-                        foreach ($category[$i]['questions'] as $question) {
+            $index++;
+            foreach ($categories as $category) {
+                for ($i = 0; $i < count($category); $i++) {
+                    foreach ($category[$i]['questions'] as $question) {
+                        $check = 1;
+                        $str = '';
+                        foreach ($surveyor['results'] as $result) {
                             if ($question['id'] == $result['question_id']) {
-                                echo '<td>' . ($question['type'] == '0'
-                                        ? $result['answer'] : $mapAnswers[$result['answer']]['content']) . '</td>';
+                                $str = $result['answer'];
+                                if ($question['type'] != '0') {
+                                    foreach ($mapAnswers as $answer) {
+                                        if ($answer['id'] == $result['answer']) {
+                                            $str = $answer['content'];
+                                            break;
+                                        }
+                                    }
+                                }
+//                                echo ;
+//                                echo "<td>" . json_encode($result) . "</td>";
                                 $check = 0;
+                                break;
                             }
                         }
+                        echo $check == 1 ? '<td></td>' : "<td>$str</td>";
                     }
                 }
-                if ($check == 1) {
-                    echo '<td></td>';
-                }
+//                    if ($check == 1) {
+//                        echo '<td></td>';
+//                    }
+
             }
             ?>
         </tr>

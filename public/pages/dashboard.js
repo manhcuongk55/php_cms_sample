@@ -6,165 +6,163 @@ var Dashboard = function () {
     var tableStatistic = null;
 
     var Constants = {
-        URL: {},
+        URL: {
+            SUMMARY_CHART_DATA: baseUrl + '/manager/dashboard/summary',
+            TOP10_CHART_DATA: baseUrl + '/manager/dashboard/top10'
+        },
         ID: {
-            TABLE_STATISTIC: '#table-statistic'
+            CHART_TOP10: 'top10-chart',
+            CHART_SUMMARY: 'summary-chart',
         }
     }
-    var loadTableStatistics = function () {
-        if (tableStatistic != null) {
-            tableStatistic.ajax.reload();
-        } else {
-            tableStatistic = $(Constants.ID.TABLE_STATISTIC).DataTable({
-                "dom": "<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-5'i><'col-sm-7'p>>",
-                "processing": true,
-                "serverSide": true,
-                "oLanguage": {
-                    "sLengthMenu": "Hiển thị _MENU_ bản ghi",
-                    "sLoadingRecords": "Đang tải..",
-                    "sSearch": "Tìm kiếm:",
-                    "sZeroRecords": "Không có bản ghi nào",
-                    "sInfoFiltered": " - lọc từ _MAX_ bản ghi",
-                    "sInfo": "Hiển thị (_START_ - _END_) của tổng số _TOTAL_ bản ghi",
-                    "oPaginate": {
-                        "sFirst": "Trang đầu",
-                        "sPrevious": "Trước",
-                        "sNext": "Sau",
-                        "sLast": "Trang cuối"
-                    }
-                },
-                "ajax": {
-                    "url": Constants.URL.TOPIC_DATA,
-                    "type": "POST"
-                },
-                "order": [[1, 'asc']],
-                "columns": [
-                    {
-                        data: null,
-                        width: '10%',
-                        searchable: false,
-                        orderable: false
-                    },
-                    {
-                        data: 'code',
-                        width: '20%',
-                    },
-                    {
-                        data: 'manager',
-                        width: '20%',
-                    },
-                    {
-                        data: 'surveyors_count',
-                        width: '20%',
-                    },
-                    {
-                        data: 'rendered',
-                        width: '30%',
-                        className: 'text-right',
-                        sortable: false,
-                        render: function (data, type, row) {
-                            if (data == 1) {
-                                return 'Đã khảo sát';
-                            } else {
-                                return 'Chưa khảo sát';
-                            }
-                        }
-                    },
-                    {
-                        data: null,
-                        sortable: false,
-                        className: 'text-center',
-                        render: function (data, type, row) {
-                            if (row['rendered'] == 0) {
-                                return '<a href="javascript:;" class="btn btn-primary btn-small render-url" data-id="' + row['id'] + '">Tạo URL</a>';
-                            } else {
-                                return '';
-                            }
-
-                        }
-                    }
-                ]
-            });
-            tableStatistic.on('order.dt search.dt draw.dt', function () {
-                tableStatistic.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
-                    cell.innerHTML = i + 1;
-                });
-            });
-        }
-
-    }
-
-    var handleRenderUrl = function () {
-        $(document).on('click', '.render-url', function () {
-            var data = tableStatistic.row($(this).parents('tr')).data();
-            if (data.rendered == 1) {
-                toastr.error('Chủ đề này đã được thống kê', 'Thông báo');
-                return;
-            }
-            var dialog = bootbox.dialog({
-                title: 'Tạo URL',
-                message: 'Số lượng URL: <input class="form-control" id="number-url">',
-                inputType: 'text',
-                buttons: {
-                    cancel: {
-                        label: "Hủy bỏ",
-                        className: 'btn-default',
-                        callback: function () {
-
-                        }
-                    },
-                    ok: {
-                        label: "Tạo",
-                        className: 'btn-primary',
-                        callback: function () {
-                            var number = parseInt($(Constants.ID.NUMBER_URL).val());
-                            if ($(Constants.ID.NUMBER_URL).val().trim() == '' ||
-                                isNaN($(Constants.ID.NUMBER_URL).val()) || number == 0) {
-                                toastr.error('Số lượng URL không hợp lệ');
-                                return;
-                            } else {
-                                renderUrl(data.id, number);
-                            }
-                        }
-                    }
-                }
-            });
-        })
-    }
-
-    var renderUrl = function (id, number) {
-        var dialog = bootbox.dialog({
-            message: '<p class="text-center">Đang tải...</p>',
-            closeButton: false
-        });
-
+    var initSummaryChart = function () {
         $.ajax({
-            'url': Constants.URL.RENDER_URL,
+            'url': Constants.URL.SUMMARY_CHART_DATA,
             'type': 'POST',
-            'data': {
-                'id': id,
-                'number': number
-            },
+            'data': {},
             'success': function (data) {
-                dialog.modal('hide');
-                if (data != null && data.code == 1) {
-                    toastr.success('Tạo URL thành công', 'Thông báo');
-                    tableStatistic.ajax.reload();
+                if (data != null) {
+                    drawSummaryChart(data);
                 } else {
                     toastr.error('Có lỗi xảy ra. Vui lòng thử lại sau', 'Thông báo');
                 }
             },
             'error': function (err, msg) {
-                dialog.modal('hide');
                 toastr.error('Có lỗi xảy ra. Vui lòng thử lại sau', 'Thông báo');
             }
 
         })
     }
 
+    var initTop10Chart = function () {
+        $.ajax({
+            'url': Constants.URL.TOP10_CHART_DATA,
+            'type': 'POST',
+            'data': {},
+            'success': function (data) {
+                if (data != null && data.data != null) {
+                    drawTop10Chart(data.data);
+                } else {
+                    toastr.error('Có lỗi xảy ra. Vui lòng thử lại sau', 'Thông báo');
+                }
+            },
+            'error': function (err, msg) {
+                toastr.error('Có lỗi xảy ra. Vui lòng thử lại sau', 'Thông báo');
+            }
+
+        })
+    }
+
+    var drawSummaryChart = function (data) {
+        var summaryChart = Highcharts.chart(Constants.ID.CHART_SUMMARY, {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Tổng quan đề tài'
+            },
+            credits: {
+                enabled: false
+            },
+            tooltip: {
+                pointFormatter: function (point) {
+                    return '<b>' + this.name + '</b>: ' + this.info + ' đề tài';
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Số lượng',
+                colorByPoint: true,
+                data: [{
+                    name: 'Đã khảo sát',
+                    y: data.done / (data.done + data.new),
+                    info: data.done
+                }, {
+                    name: 'Chưa khảo sát',
+                    y: data.new / (data.done + data.new),
+                    info: data.new
+                }]
+            }]
+        });
+    }
+
+    var drawTop10Chart = function (data) {
+        var categories = [];
+        var seriesTotal = [];
+        var seriesDone = [];
+        var seriesSeen = [];
+        var seriesNew = [];
+        if (data.length == 0) {
+            return;
+        }
+        for (var i = 0; i < data.length; i++) {
+            categories.push(data[i].code);
+            seriesTotal.push(data[i].surveyors_count);
+            seriesDone.push(data[i].done);
+            seriesSeen.push(data[i].seen);
+            seriesNew.push(data[i].new);
+        }
+        console.log(data);
+        var top10Chart = Highcharts.chart(Constants.ID.CHART_TOP10, {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Tổng quan top 10 đã khảo sát theo số lượng URL'
+            },
+            xAxis: {
+                categories: categories
+            },
+            credits: {
+                enabled: false
+            },
+            yAxis: {
+                allowDecimals: false,
+                title: {
+                    text: 'Số người khảo sát'
+                }
+            },
+            series: [
+                {
+                    'name':'Tổng số',
+                    'data': seriesTotal
+                },
+                {
+                    'name':'Hoàn thành',
+                    'data': seriesDone
+                },
+                {
+                    'name':'Đã xem',
+                    'data': seriesSeen
+                },
+                {
+                    'name':'Chưa xem',
+                    'data': seriesNew
+                },
+            ]
+        });
+    }
+
+
     return {
         init: function () {
-            loadTableStatistics();
+            initSummaryChart();
+            initTop10Chart();
         }
     }
 

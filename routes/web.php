@@ -22,6 +22,8 @@ Route::prefix('manager')->group(function () {
 
     Route::prefix('dashboard')->group(function (){
         Route::get('/', 'DashboardController@index')->name('index');
+        Route::post('/summary', 'DashboardController@summaryChart')->name('summary');
+        Route::post('/top10', 'DashboardController@top10Chart')->name('top10');
     });
     Route::prefix('topics')->group(function (){
         Route::get('/', 'TopicController@index')->name('index');

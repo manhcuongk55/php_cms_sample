@@ -44,4 +44,36 @@ class Topic extends Model
         }
     }
 
+    public static function getSummary()
+    {
+        $done = Topic::where('rendered', 1)->count();
+        $new = Topic::where('rendered', 0)->count();
+        return [
+            'done' => $done,
+            'new' => $new
+        ];
+    }
+
+    public static function getTop10()
+    {
+        $data = Topic::where('rendered', 1)
+            ->withCount('surveyors as surveyors_count')
+            ->withCount(['surveyors as new' => function ($q) {
+                $q->where('status', '=', 0);
+            }])
+            ->withCount(['surveyors as seen' => function ($q) {
+                $q->where('status', '=', 1);
+            }])
+            ->withCount(['surveyors as done' => function ($q) {
+                $q->where('status', '=', 2);
+            }])
+            ->orderBy('surveyors_count', 'desc')
+            ->limit(10)
+            ->offset(0)
+            ->get();
+        return [
+            'data' => $data
+        ];
+
+    }
 }

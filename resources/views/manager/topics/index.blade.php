@@ -25,41 +25,7 @@
 
         <!-- Row -->
         <div class="row">
-            <div class="col-sm-12">
-                <div class="panel panel-default card-view">
-                    <div class="panel-heading">
-                        <div class="pull-left">
-                            <h6 class="panel-title txt-dark">Thống kê đề tài</h6>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="panel-wrapper collapse in">
-                        <div class="panel-body">
-                            <div class="table-wrap">
-                                <div class="table-responsive">
-                                    <table id="table-topics" class="table table-striped">
-                                        <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Mã đề tài</th>
-                                            <th>Chủ nhiệm đề tài</th>
-                                            <th>Số lượng url</th>
-                                            <th>Chưa xem</th>
-                                            <th>Đã xem</th>
-                                            <th>Hoàn thành</th>
-                                            <th>Trạng thái</th>
-                                            <th>Hành động</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @include('manager.topics.partitals.table')
         </div>
     </div>
 @endsection
