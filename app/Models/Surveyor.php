@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Surveyor extends Model
 {
-    protected $table = 'Surveyors';
+    protected $table = 'surveyors';
 
     public function topic(){
     	return $this->belongsTo('App\Models\Topic', 'topic_id');

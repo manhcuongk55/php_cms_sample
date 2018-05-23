@@ -14,6 +14,7 @@ class Topic extends Model
     	return Topic::where('id', $id)->first();
     }
 
+
     public function urls()
     {
         return $this->hasMany('App\Models\Url');
