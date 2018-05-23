@@ -21,8 +21,7 @@ Auth::routes();
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Route::prefix('manager')->group(function () {
-    Route::get('/', 'HomeController@index')->name('dashboard');
-
+    Route::get('/', '\App\Http\Controllers\Auth\LoginController@showLoginForm');
     Route::prefix('dashboard')->group(function (){
         Route::get('/', 'DashboardController@index')->name('index');
         Route::post('/summary', 'DashboardController@summaryChart')->name('summary');
