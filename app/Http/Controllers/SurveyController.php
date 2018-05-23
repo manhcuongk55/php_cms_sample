@@ -15,16 +15,16 @@ class SurveyController extends Controller
     public function index($topicCode, $surveyorId){
 
     	$surveyor = Surveyor::get($surveyorId);
-    	$topic = Topic::get($topicId);
+    	$topic = Topic::getByCode($topicCode);
 
     	if(!$topic || !$surveyor){
     		die('This survey does not exist.');
     	}
 
-    	if($surveyor->topic()->first()->id != $topicId){
+    	if($surveyor->topic()->first()->id != $topic->id){
     		die('This survey does not belong to the surveyor.');
     	}
 
-    	echo 'Welcome to this survey';
+    	return \View::make('index');
     }
 }

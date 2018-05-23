@@ -3,14 +3,18 @@
  * Created by PhpStorm.
  * User: T420
  * Date: 5/20/2018
- * Time: 10:21 PM
+ * Time: 30:21 PM
  */
 
 namespace App\Http\Controllers;
 
+use App\Models\Answers;
+use App\Models\Category;
+use App\Models\Result;
+use App\Models\Surveyor;
 use App\Models\Topic;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
-use App\Models\Url;
 
 class TopicController extends Controller
 {
@@ -63,10 +67,52 @@ class TopicController extends Controller
 
         $id = $request->input('id');
         $number = $request->input('number');
-        $results = Url::renderUrl($id, $number);
+        $results = Surveyor::renderUrl($id, $number);
 
         return response()->json([
             'code' => $results == true ? 1 : 0
         ]);
+    }
+
+    public function export(Request $request)
+    {
+        $id = $request->input('id');
+
+        $cats = Category::with('questions')->get();
+        $collection = collect($cats);
+        $groupedCats = $collection->groupBy('page')->toArray();
+
+        $answers = Answers::get();
+        $collection = collect($answers);
+        $groupedAnswers = $collection->groupBy('category_id')->toArray();
+
+        $arrAnswers = $answers->toArray();
+        $surveyors = Surveyor::with('results')->where('topic_id', $id)->get()->toArray();
+
+        Excel::create('Topic statistic', function ($excel) use ($groupedCats, $groupedAnswers, $surveyors,$arrAnswers) {
+
+            $excel->sheet('Detail', function ($sheet) use ($groupedCats, $groupedAnswers,$surveyors, $arrAnswers) {
+//                $sheet->setWidth(array(
+//                    'A'     =>  5,
+////                    'B'     =>  30,
+//                    'C'     =>  30,
+//                    'D'     =>  30,
+//                    'E'     =>  30,
+//                    'F'     =>  30,
+//                    'G'     =>  30,
+//                    'H'     =>  30,
+//                    'I'     =>  30,
+//                    'J'     =>  30,
+//                ));
+                $sheet->loadView('manager.topics.partitals.export-topic')
+                    ->with('categories', $groupedCats)
+                    ->with('answers', $groupedAnswers)
+                    ->with('surveyors', $surveyors)
+                    ->with('mapAnswers', $arrAnswers);
+                $sheet->setOrientation('landscape');
+            });
+
+        })->export('xls');
+
     }
 }

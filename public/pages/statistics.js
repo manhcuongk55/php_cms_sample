@@ -8,7 +8,8 @@ var Statistics = function () {
     var Constants = {
         URL: {
             TOPIC_DATA: baseUrl + '/manager/topics/listing',
-            RENDER_URL: baseUrl + '/manager/topics/url'
+            RENDER_URL: baseUrl + '/manager/topics/url',
+            EXPORT_TOPIC: baseUrl + '/manager/topics/export'
         },
         ID: {
             TABLE_TOPIC: '#table-topics',
@@ -45,25 +46,29 @@ var Statistics = function () {
                 "columns": [
                     {
                         data: null,
-                        width: '10%',
                         searchable: false,
                         orderable: false
                     },
                     {
                         data: 'code',
-                        width: '20%',
                     },
                     {
                         data: 'manager',
-                        width: '20%',
                     },
                     {
-                        data: 'urls_count',
-                        width: '20%',
+                        data: 'surveyors_count',
+                    },
+                    {
+                        data: 'new',
+                    },
+                    {
+                        data: 'seen',
+                    },
+                    {
+                        data: 'done',
                     },
                     {
                         data: 'rendered',
-                        width: '30%',
                         className: 'text-right',
                         sortable: false,
                         render: function (data, type, row) {
@@ -77,14 +82,14 @@ var Statistics = function () {
                     {
                         data: null,
                         sortable: false,
-                        className: 'text-center',
+                        className: 'text-center action-group',
                         render: function (data, type, row) {
                             if (row['rendered'] == 0) {
                                 return '<a href="javascript:;" class="btn btn-primary btn-small render-url" data-id="' + row['id'] + '">Tạo URL</a>';
                             } else {
-                                return '';
+                                // return '<a href="javascript:;" class="btn btn-success btn-small detail-topic" data-id="' + row['id'] + '">Chi tiết</a>'
+                                return '<a href="javascript:;" class="btn btn-default btn-small export-topic" data-id="' + row['id'] + '">Xuất báo cáo</a>';
                             }
-
                         }
                     }
                 ]
@@ -94,9 +99,6 @@ var Statistics = function () {
                     cell.innerHTML = i + 1;
                 });
             });
-            $('select').select2({
-                width: '60px'
-            })
         }
 
     }
@@ -158,13 +160,42 @@ var Statistics = function () {
                     toastr.success('Tạo URL thành công', 'Thông báo');
                     tableTopics.ajax.reload();
                 } else {
-                    toastr.success('Có lỗi xảy ra. Vui lòng thử lại sau', 'Thông báo');
+                    toastr.error('Có lỗi xảy ra. Vui lòng thử lại sau', 'Thông báo');
                 }
             },
             'error': function (err, msg) {
                 dialog.modal('hide');
-                toastr.success('Có lỗi xảy ra. Vui lòng thử lại sau', 'Thông báo');
+                toastr.error('Có lỗi xảy ra. Vui lòng thử lại sau', 'Thông báo');
             }
+
+        })
+    }
+
+    var handleExportTopic = function () {
+        $(document).on('click', '.export-topic', function () {
+            var data = tableTopics.row($(this).parents('tr')).data();
+            if (data.rendered == 0) {
+                toastr.error('Chủ đề này chưa được khảo sát ', 'Thông báo');
+                return;
+            }
+            // var dialog = bootbox.dialog({
+            //     message: '<p class="text-center">Đang xử lý...</p>',
+            //     closeButton: false
+            // });
+
+            $.fileDownload(Constants.URL.EXPORT_TOPIC, {
+                httpMethod: "GET",
+                data: {
+                    id: data.id
+                },
+                successCallback: function (url) {
+                    dialog.modal('hide');
+                },
+                failCallback: function (responseHtml, url) {
+                    toastr.error('Có lỗi xảy ra. Vui lòng thử lại sau', 'Thông báo');
+                    dialog.modal('hide');
+                }
+            });
 
         })
     }
@@ -173,6 +204,7 @@ var Statistics = function () {
         init: function () {
             loadTableTopics();
             handleRenderUrl();
+            handleExportTopic();
         }
     }
 

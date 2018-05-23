@@ -44,6 +44,9 @@
                                             <th>Mã đề tài</th>
                                             <th>Chủ nhiệm đề tài</th>
                                             <th>Số lượng url</th>
+                                            <th>Chưa xem</th>
+                                            <th>Đã xem</th>
+                                            <th>Hoàn thành</th>
                                             <th>Trạng thái</th>
                                             <th>Hành động</th>
                                         </tr>
