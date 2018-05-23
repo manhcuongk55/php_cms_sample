@@ -66,7 +66,7 @@ new Vue({
 
 				if(_.isEmpty(response.data.data)){
 
-					if(!disableSubmit){
+					if(!$this.disableSubmit){
 						axios.post(app.baseURL + '/save', {
 							surveyorId: app.surveyorId,
 							results: $this.results
