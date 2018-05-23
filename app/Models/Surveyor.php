@@ -10,16 +10,19 @@ class Surveyor extends Model
     protected $table = 'surveyors';
     public $timestamps = false;
 
-    public function topic(){
-    	return $this->belongsTo('App\Models\Topic', 'topic_id');
+    public function topic()
+    {
+        return $this->belongsTo('App\Models\Topic', 'topic_id');
     }
 
-    public function results(){
-    	return $this->hasMany('App\Models\Result');
+    public function results()
+    {
+        return $this->hasMany('App\Models\Result');
     }
 
-    public static function get($id){
-    	return Surveyor::where('id', $id)->first();
+    public static function get($id)
+    {
+        return Surveyor::where('id', $id)->first();
     }
 
     public static function renderUrl($id, $number)
@@ -34,9 +37,9 @@ class Surveyor extends Model
         for ($i = 1; $i <= $number; $i++) {
             $arr = [
                 'id' => $urlId,
-                'url' => '/hash=' . substr(md5(openssl_random_pseudo_bytes(20)), -32) . '&topic=' . $topic->code . '&stt=' . $urlId,
+                'url' => '/' . $topic->code . '-' . $urlId,
                 'topic_id' => $id,
-                'status'=> 0
+                'status' => 0
             ];
             $arrInserts[] = $arr;
             $urlId++;
@@ -50,9 +53,10 @@ class Surveyor extends Model
         return false;
     }
 
-    public static function export($id){
+    public static function export($id)
+    {
         $topic = Topic::find($id);
-        if($topic == null){
+        if ($topic == null) {
             return null;
         }
         $surveyors = Surveyor::where('topic_id', $id)->get();
@@ -61,7 +65,8 @@ class Surveyor extends Model
             return $item->id;
         })->toArray();
 
-        print_r($idSurveyors);die();
+        print_r($idSurveyors);
+        die();
 
     }
 }
