@@ -40,7 +40,8 @@
                         }
                         foreach ($category[$i]['questions'] as $question) {
                             if ($question['id'] == $result['question_id']) {
-                                echo '<td>' . $mapAnswers[$result['answer']]['content'] . '</td>';
+                                echo '<td>' . ($question['type'] == '0'
+                                        ? $result['answer'] : $mapAnswers[$result['answer']]['content']) . '</td>';
                                 $check = 0;
                             }
                         }
