@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 class Surveyor extends Model
 {
     protected $table = 'surveyors';
+    public $timestamps = false;
 
     public function topic(){
     	return $this->belongsTo('App\Models\Topic', 'topic_id');

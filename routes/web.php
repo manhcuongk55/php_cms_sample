@@ -12,6 +12,9 @@
 */
 
 Route::get('/{topic}-{surveyor}', "SurveyController@index");
+Route::post('/survey-data', 'SurveyController@questions');
+Route::post('/save', 'SurveyController@save');
+Route::post('/results-data', 'SurveyController@results');
 
 Auth::routes();
 
