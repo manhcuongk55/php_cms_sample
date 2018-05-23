@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 38);
+/******/ 	return __webpack_require__(__webpack_require__.s = 45);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -48089,273 +48089,209 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 38 */
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(39);
-module.exports = __webpack_require__(44);
+module.exports = __webpack_require__(46);
 
 
 /***/ }),
-/* 39 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
-__webpack_require__(12);
-
-window.Vue = __webpack_require__(11);
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-Vue.component('example-component', __webpack_require__(40));
-
-var app = new Vue({
-  el: '#app'
-});
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(41)
-/* script */
-var __vue_script__ = __webpack_require__(42)
-/* template */
-var __vue_template__ = __webpack_require__(43)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\components\\ExampleComponent.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0ca92eac", Component.options)
-  } else {
-    hotAPI.reload("data-v-0ca92eac", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 41 */
-/***/ (function(module, exports) {
-
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file.
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier /* server only */
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = injectStyles
-  }
-
-  if (hook) {
-    var functional = options.functional
-    var existing = functional
-      ? options.render
-      : options.beforeCreate
-
-    if (!functional) {
-      // inject component registration as beforeCreate hook
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    } else {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return existing(h, context)
-      }
-    }
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-/* 42 */
+/* 46 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__survey_constants__ = __webpack_require__(47);
+__webpack_require__(12);
 
-/* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        console.log('Component mounted.');
-    }
+
+
+new Vue({
+	el: '#survey',
+	data: {
+		QUESTION_RADIO: __WEBPACK_IMPORTED_MODULE_0__survey_constants__["a" /* QUESTION_RADIO */],
+		QUESTION_TEXT: __WEBPACK_IMPORTED_MODULE_0__survey_constants__["b" /* QUESTION_TEXT */],
+		topic: JSON.parse(app.topic),
+		surveyor: JSON.parse(app.surveyor),
+		manager: {
+			name: '',
+			invalid: false
+		},
+		surveyActivated: false,
+		surveyDone: false,
+		page: 1,
+		categories: [],
+		results: [],
+		errors: [],
+		disableSubmit: false
+	},
+	mounted: function mounted() {
+		if (this.surveyor.status == __WEBPACK_IMPORTED_MODULE_0__survey_constants__["c" /* SURVEYOR_DONE */]) {
+			this.surveyActivated = true;
+			this.disableSubmit = true;
+
+			var $this = this;
+			axios.post(app.baseURL + '/results-data', {
+				surveyorId: app.surveyorId
+			}).then(function (response) {
+				var res = [];
+				_.each(response.data.data, function (o) {
+					res.push({
+						question: o.question_id,
+						answer: o.answer
+					});
+				});
+
+				$this.results = res;
+
+				$this.start();
+			});
+		}
+	},
+
+	methods: {
+		start: function start() {
+			var $this = this;
+			if (!this.surveyActivated) {
+				if ($this.manager.name.toLowerCase() != $this.topic.manager.toLowerCase()) {
+					$this.manager.invalid = true;
+
+					return;
+				}
+			}
+
+			$this.manager.invalid = false;
+			axios.post(app.baseURL + '/survey-data', {
+				page: $this.page,
+				surveyorId: app.surveyorId
+			}).then(function (response) {
+				$this.surveyActivated = true;
+
+				if (_.isEmpty(response.data.data)) {
+
+					if (!disableSubmit) {
+						axios.post(app.baseURL + '/save', {
+							surveyorId: app.surveyorId,
+							results: $this.results
+						}).then(function (response) {
+							$this.surveyDone = true;
+						}).catch(function (e) {});
+					} else {
+						$this.surveyDone = true;
+					}
+				} else {
+					$this.categories = response.data.data;
+				}
+			}).catch(function (e) {
+				console.error(e);
+			});
+		},
+		questions: function questions(array, type) {
+			return _.filter(array, function (o) {
+				return parseInt(o.type) == type;
+			});
+		},
+		next: function next() {
+			console.log('next');
+			console.log(this.validate());
+			if (this.validate()) {
+				this.page++;
+				this.start();
+			}
+		},
+		back: function back() {
+			if (this.page > 1) {
+				this.page--;
+				this.start();
+			}
+		},
+		result: function result(question, answer, cat) {
+			var $this = this;
+
+			var q = _.find($this.results, function (o) {
+				return o.question == question.id;
+			});
+
+			var a = answer.id ? answer.id : answer.target.value;
+
+			if (_.isEmpty(q)) {
+				$this.results.push({
+					question: question.id,
+					answer: a
+				});
+			} else {
+				q.answer = a;
+			}
+
+			$this.validate();
+		},
+		validate: function validate() {
+			var $this = this;
+			$this.categories = _.map($this.categories, function (c) {
+				c.error = false;
+				return c;
+			});
+
+			for (var i = 0; i < $this.categories.length; i++) {
+				var questions = $this.categories[i].questions;
+
+				for (var k = 0; k < questions.length; k++) {
+					if (parseInt(questions[k].required) > 0) {
+						var q = _.find($this.results, function (o) {
+							return parseInt(o.question) == parseInt(questions[k].id);
+						});
+
+						if (_.isEmpty(q)) {
+							$this.categories[i].error = true;
+						}
+					}
+				}
+			}
+
+			var errorCat = _.find($this.categories, function (c) {
+				return c.error == true;
+			});
+
+			return errorCat ? false : true;
+		},
+		checked: function checked(q, a) {
+			var $this = this;
+
+			var item = _.find($this.results, function (o) {
+				return o.question == q.id && o.answer == a.id;
+			});
+
+			return !_.isEmpty(item);
+		},
+		text: function text(q) {
+			var $this = this;
+			var item = _.find($this.results, function (o) {
+				return o.question == q.id;
+			});
+
+			return item ? item.answer : '';
+		}
+	}
 });
 
 /***/ }),
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 47 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card card-default" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Example Component")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    I'm an example component.\n                "
-              )
-            ])
-          ])
-        ])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-0ca92eac", module.exports)
-  }
-}
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return QUESTION_RADIO; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return QUESTION_TEXT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return SURVEYOR_DONE; });
+var QUESTION_RADIO = 2;
+var QUESTION_TEXT = 0;
+var SURVEYOR_DONE = 3;
 
 /***/ })
 /******/ ]);

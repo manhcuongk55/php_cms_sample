@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 class Result extends Model
 {
     protected $table = 'results';
+    public $timestamps = false;
 
     public function surveyor(){
         $this->belongsTo('App\Models\Surveyor','surveyor_id');
