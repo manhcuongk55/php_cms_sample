@@ -159,6 +159,8 @@ CREATE TABLE `surveyors` (
   `topic_id` int(11) DEFAULT NULL,
   `url` text COLLATE utf8_unicode_ci,
   `status` int(11) DEFAULT NULL COMMENT '0 - Chưa xem\n1 - Đã xem\n2 - Đã khảo sát',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -169,7 +171,7 @@ CREATE TABLE `surveyors` (
 
 LOCK TABLES `surveyors` WRITE;
 /*!40000 ALTER TABLE `surveyors` DISABLE KEYS */;
-INSERT INTO `surveyors` VALUES (1,4,'/nampth-1',1),(2,4,'/nampth-2',2),(3,4,'/nampth-3',2),(4,4,'/nampth-4',2),(5,4,'/nampth-5',0),(6,4,'/nampth-6',0),(7,4,'/nampth-7',0),(8,4,'/nampth-8',0),(9,4,'/nampth-9',0),(10,4,'/nampth-10',0);
+INSERT INTO `surveyors` VALUES (1,4,'/nampth-1',1,NULL,NULL),(2,4,'/nampth-2',2,NULL,NULL),(3,4,'/nampth-3',2,NULL,NULL),(4,4,'/nampth-4',2,NULL,NULL),(5,4,'/nampth-5',0,NULL,NULL),(6,4,'/nampth-6',0,NULL,NULL),(7,4,'/nampth-7',0,NULL,NULL),(8,4,'/nampth-8',0,NULL,NULL),(9,4,'/nampth-9',0,NULL,NULL),(10,4,'/nampth-10',0,NULL,NULL);
 /*!40000 ALTER TABLE `surveyors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -268,4 +270,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-23 23:17:17
+-- Dump completed on 2018-05-24 22:06:08
