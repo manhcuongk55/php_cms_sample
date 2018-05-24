@@ -48130,7 +48130,9 @@ new Vue({
 		categories: [],
 		results: [],
 		errors: [],
-		disableSubmit: false
+		disableSubmit: false,
+		procesing: false,
+		loading: false
 	},
 	mounted: function mounted() {
 		if (this.surveyor.status == __WEBPACK_IMPORTED_MODULE_0__survey_constants__["c" /* SURVEYOR_DONE */]) {
@@ -48138,6 +48140,7 @@ new Vue({
 			this.disableSubmit = true;
 
 			var $this = this;
+			$this.loading = true;
 			axios.post(app.baseURL + '/results-data', {
 				surveyorId: app.surveyorId
 			}).then(function (response) {
@@ -48168,6 +48171,13 @@ new Vue({
 			}
 
 			$this.manager.invalid = false;
+
+			if ($this.processing) {
+				return;
+			}
+
+			$this.loading = true;
+			$this.processing = true;
 			axios.post(app.baseURL + '/survey-data', {
 				page: $this.page,
 				surveyorId: app.surveyorId
@@ -48189,7 +48199,12 @@ new Vue({
 				} else {
 					$this.categories = response.data.data;
 				}
+
+				$this.loading = false;
+				$this.processing = false;
 			}).catch(function (e) {
+				$this.processing = false;
+				$this.loading = false;
 				console.error(e);
 			});
 		},
@@ -48291,7 +48306,7 @@ new Vue({
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return SURVEYOR_DONE; });
 var QUESTION_RADIO = 2;
 var QUESTION_TEXT = 0;
-var SURVEYOR_DONE = 3;
+var SURVEYOR_DONE = 2;
 
 /***/ })
 /******/ ]);

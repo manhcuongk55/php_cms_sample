@@ -19,7 +19,9 @@ new Vue({
 		categories: [],
 		results: [],
 		errors: [],
-		disableSubmit: false
+		disableSubmit: false,
+		procesing: false,
+		loading: false
 	},
 	mounted(){
 		if(this.surveyor.status==SURVEYOR_DONE){
@@ -27,6 +29,7 @@ new Vue({
 			this.disableSubmit = true;
 
 			var $this = this;
+			$this.loading = true;
 			axios.post(app.baseURL + '/results-data', {
 				surveyorId: app.surveyorId
 			})
@@ -56,7 +59,15 @@ new Vue({
 				}
 			}
 
+
 			$this.manager.invalid = false;
+
+			if($this.processing){
+				return;
+			}
+
+			$this.loading = true;
+			$this.processing = true;
 			axios.post(app.baseURL + '/survey-data', {
 				page: $this.page,
 				surveyorId: app.surveyorId
@@ -84,8 +95,13 @@ new Vue({
 				} else {
 					$this.categories = response.data.data;
 				}
+
+				$this.loading = false;
+				$this.processing = false;
 			})
 			.catch(function(e){
+				$this.processing = false;
+				$this.loading = false;
 				console.error(e);
 			})
 		},

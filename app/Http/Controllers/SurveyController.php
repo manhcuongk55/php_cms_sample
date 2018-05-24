@@ -39,7 +39,7 @@ class SurveyController extends Controller
         $surveyorId = $request->input('surveyorId');
 
         $sur = Surveyor::where('id', $surveyorId)->first();
-        $sur->status = $sur->status==3 ? 3 : 2; //Seen;
+        $sur->status = $sur->status==2 ? 2 : 1; //Seen;
         $sur->save();
 
         $cats = Category::where('page', $page)
@@ -67,7 +67,7 @@ class SurveyController extends Controller
         }
 
         $sur = Surveyor::where('id', $surveyorId)->first();
-        $sur->status = 3; //Done;
+        $sur->status = 2; //Done;
         $sur->save();
 
         return response(['message' => 'success']);

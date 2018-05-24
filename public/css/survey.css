@@ -19,6 +19,12 @@ body * {
   padding: 30px;
   border: 1px solid #ddd;
 }
+.survey.overview {
+  padding: 50px;
+}
+.survey.overview h1 {
+  font-size: 34px;
+}
 .survey h1 {
   margin-top: 0;
   font-weight: 500;
@@ -26,14 +32,24 @@ body * {
 }
 .survey > .desc {
   color: #333;
-  font-size: 15px;
+  font-size: 18px;
   text-align: center;
 }
 .frm {
-  margin-top: 50px;
+  margin-top: 80px;
 }
 .form-group {
   margin-bottom: 30px;
+}
+.form-group.text-lg {
+  padding: 10px 10px;
+}
+.form-group.text-lg label {
+  font-size: 18px;
+}
+.form-group.text-lg .input input {
+  font-size: 16px;
+  width: 100%;
 }
 .form-group label {
   font-size: 16px;
@@ -48,48 +64,42 @@ body * {
 .form-group .input ::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
   color: #777;
-  font-weight: 300;
-  letter-spacing: .5px;
 }
 .form-group .input ::-moz-placeholder {
   /* Firefox 19+ */
   color: #777;
-  font-weight: 300;
 }
 .form-group .input :-ms-input-placeholder {
   /* IE 10+ */
   color: #777;
-  font-weight: 300;
 }
 .form-group .input :-moz-placeholder {
   /* Firefox 18- */
   color: #777;
-  font-weight: 300;
 }
 .form-group .input input {
   border: 0;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 5px;
-  padding-left: 5px;
+  border-bottom: 1px solid #b5b5b5;
+  padding-bottom: 7px;
   min-width: 400px;
   font-size: 14px;
   outline: none;
+  background: none;
 }
 .form-group .input input[readonly] {
-  font-weight: 500;
-  color: #888;
+  color: #333;
   cursor: default;
 }
 .form-group .input input:focus {
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid #000;
 }
 .pretty .state label:before {
-  border-color: #333 !important;
+  border-color: #444 !important;
 }
 .pretty .state label:after,
 .pretty .state label:before {
-  width: 1em !important;
-  height: 1em !important;
+  width: .9em !important;
+  height: .9em !important;
 }
 .pretty.p-default input:checked ~ .state label:after {
   background-color: #333!important;
@@ -103,8 +113,11 @@ body * {
   color: #4b4f56;
   margin-top: 20px;
   display: inline-block;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
+}
+.button.right {
+  float: right;
 }
 .error-message {
   display: block;
@@ -131,6 +144,7 @@ table tr td {
   padding: 5px 0;
 }
 table tr td:first-child {
+  padding: 5px 20px 5px 0;
   text-align: left;
   max-width: auto;
 }
@@ -145,4 +159,31 @@ table tr td .pretty {
 }
 .success-message {
   text-align: center;
+}
+.loader {
+  text-align: center;
+}
+.loader img {
+  width: 16px;
+}
+.note {
+  padding-top: 0;
+  margin-bottom: 25px;
+  font-size: 14px;
+  color: #666;
+  margin-top: -5px;
+}
+.clear {
+  clear: both;
+  display: block;
+}
+.buttons-group {
+  margin-top: 50px;
+  width: 97%;
+}
+.checkbox {
+  margin-top: 20px;
+}
+.checkbox label {
+  font-size: 16px !important;
 }

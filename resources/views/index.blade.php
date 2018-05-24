@@ -7,7 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="{{url('/')}}/css/survey.css">
 </head>
 <body>
-	<div id="survey" class="survey" v-cloak>
+	<div id="survey" class="survey" :class="{overview: !surveyActivated}" v-cloak>
 		<h1>Khảo sát về hoạt động tài trợ, hỗ trợ của Quỹ Phát triển KH&CN Quốc gia</h1>
 		<p class="desc">Đánh giá tác động của Đề tài do NAFOSTED tài trợ, hỗ trợ đối với cá nhân nhà khoa học</p>
 
@@ -15,29 +15,56 @@
 
 		<div v-if="!surveyActivated">
 			<div class="frm">
-				<div class="form-group">
-					<label>1. Mã số đề tài</label> <span class="required-maker">*</span>
+				<div class="form-group text-lg">
+					<label>Mã số đề tài</label> <span class="required-maker">*</span>
 					<div class="input">
 						<input type="text" placeholder="Nhập mã số đề tài" readonly="" :value="topic.code">
 					</div>
 				</div>
 
-				<div class="form-group">
-					<label>2. Tên chủ nhiệm đề tài</label> <span class="required-maker">*</span>
+				<div class="form-group text-lg">
+					<label>Tên chủ nhiệm đề tài</label> <span class="required-maker">*</span>
 					<div class="input">
-						<input type="text" placeholder="Nhập tên chủ nhiệm" v-model="manager.name" spellcheck="no" @keyup="manager.invalid=false" @keyup.13="start">
+						<input type="text" placeholder="Nhập tên chủ nhiệm đề tài" v-model="manager.name" spellcheck="false" @keyup="manager.invalid=false" @keyup.13="start">
 					</div>
 					<span class="error-message" v-if="manager.invalid">Tên chủ nhiệm đề tài không đúng</span>
 				</div>
 
-				<div class="form-group">
-					<a href="javascript:;" class="button" @click="start">Tiếp tục</a>
+				<!-- <div class="form-group text-lg">
+					<label>Vai trò của bạn trong đề tài</label>
+					<div class="checkbox">
+						<div class="pretty p-default p-round p-fill">
+					        <input type="radio" name="rl">
+					        <div class="state">
+					        	<label>Thư ký đề tài</label>
+					        </div>
+					    </div>
+					</div>
+
+					<div class="checkbox">
+						<div class="pretty p-default p-round p-fill">
+					        <input type="radio" name="rl">
+					        <div class="state">
+					        	<label>Người thực hiện đề tài</label>
+					        </div>
+					    </div>
+					</div>
+				</div> -->
+
+				<div class="form-group buttons-group">
+					<a href="javascript:;" class="button right" @click="start">Tiếp tục</a>
+
+					<div class="clear"></div>
 				</div>
 			</div>
 		</div>
 
 		<div v-else>
-			<div v-if="!surveyDone">
+			<div class="loader" v-show="loading">
+				<img src="{{url('/')}}/images/loader.gif">
+			</div>
+
+			<div v-if="!surveyDone" v-show="!loading">
 				<div v-for="(cat, i) in categories" class="category">
 					<h3>@{{i+1}}. @{{cat.content}}</h3>
 					<p class="note" v-if="cat.note">@{{cat.note}}</p>
@@ -51,7 +78,7 @@
 							<tr v-for="q in questions(cat.questions, QUESTION_RADIO)">
 								<td>@{{q.content}}</td>
 								<td v-for="a in cat.answers">
-									<div class="pretty p-default p-round p-fill" v-if="disableSubmit">
+									<div class="pretty p-default p-round p-fill" v-if="disableSubmit" title="Bạn đã hoàn thành khảo sát">
 								        <input type="radio" :checked="checked(q, a)" disabled="" :name="'rad-' + q.id" @click="result(q, a, cat)">
 								        <div class="state">
 								        	<label></label>
@@ -71,7 +98,7 @@
 							<label>@{{q.content}}</label>
 							
 							<div class="input">
-								<input type="text" placeholder="Nhập câu trả lời" :value="text(q)" @change="result(q, $event)">
+								<input type="text" spellcheck="false" placeholder="Nhập câu trả lời" :disabled="disableSubmit" :value="text(q)" @change="result(q, $event)">
 							</div>
 						</div>
 					</div>
@@ -79,14 +106,16 @@
 					<div class="error-message" v-show="cat.error">Vui lòng đánh giá hết các mục</div>
 				</div>
 
-				<div class="form-group"> 
-					<a href="javascript:;" class="button" @click="back" v-if="page>1">Quay lại</a>
-					<a href="javascript:;" class="button" @click="next">Tiếp tục</a>
+				<div class="form-group buttons-group"> 
+					<a href="javascript:;" class="button" @click="back" v-if="page>1" v-show="!processing">Quay lại</a>
+					<a href="javascript:;" class="button right" @click="next">Tiếp tục</a>
+
+					<div class="clear"></div>
 				</div>
 			</div>
 
 			<div v-else>
-				<p class="success-message">Cám ơn bạn đã hoàn thành khảo sát.</p>
+				<p class="success-message">Cảm ơn bạn đã hoàn thành khảo sát.</p>
 			</div>
 		</div>
 	</div>
