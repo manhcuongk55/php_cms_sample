@@ -94,8 +94,6 @@
                                         }
                                     }
                                 }
-//                                echo ;
-//                                echo "<td>" . json_encode($result) . "</td>";
                                 $check = 0;
                                 break;
                             }
@@ -103,10 +101,6 @@
                         echo $check == 1 ? '<td></td>' : "<td>$str</td>";
                     }
                 }
-//                    if ($check == 1) {
-//                        echo '<td></td>';
-//                    }
-
             }
             ?>
         </tr>
