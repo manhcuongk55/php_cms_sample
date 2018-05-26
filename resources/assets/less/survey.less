@@ -12,6 +12,14 @@ body{
 		font-family: Roboto;
 		box-sizing: border-box;
 	}
+
+	&.message{
+		background-color: #fff;
+		
+		.survey{
+			border: 0;
+		}
+	}
 }
 
 .survey{
@@ -242,9 +250,26 @@ table{
 	font-weight: 500;
 }
 
+.not-found-message{
+	text-align: center;
+	padding-top: 50px;
+
+	img{
+		width: 600px;
+	}
+
+	p{
+		margin-top: -50px;
+		font-size: 16px;
+		font-weight: 500;
+		color: #5C7CA1;
+	}
+}
+
 @media only screen and (max-width: 768px) {
     .survey {
         max-width: 100%;
         padding: 90px;
     }
 }
+

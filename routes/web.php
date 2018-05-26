@@ -36,5 +36,5 @@ Route::prefix('manager')->group(function () {
 
 });
 
-
+Route::get('/', 'SurveyController@index');
 Route::get('/survey/{param?}', 'SurveyController@index');

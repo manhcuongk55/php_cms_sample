@@ -16,7 +16,9 @@ class SurveyController extends Controller
 
     public function index($param = ''){
         if(!$param){
-            die('Vui lòng nhập đúng url của khảo sát để bắt đầu');
+            return \View::make('message')->with([
+                'message' => 'Vui lòng nhập đúng địa chỉ url của khảo sát để bắt đầu thực hiện'
+            ]);
         }
 
         $param = urldecode($param);
@@ -38,11 +40,15 @@ class SurveyController extends Controller
     	$topic = Topic::getByCode($topicCode);
 
     	if(!$topic || !$surveyor){
-    		die('This survey does not exist.');
+    		return \View::make('message')->with([
+                'message' => 'Địa chỉ khảo sát này không tồn tại'
+            ]);
     	}
 
     	if($surveyor->topic()->first()->id != $topic->id){
-    		die('This survey does not belong to the surveyor.');
+    		return \View::make('message')->with([
+                'message' => 'Địa chỉ khảo sát này không tồn tại'
+            ]);
     	}
 
         //Return view

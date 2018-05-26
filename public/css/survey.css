@@ -11,6 +11,12 @@ body * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
+body.message {
+  background-color: #fff;
+}
+body.message .survey {
+  border: 0;
+}
 .survey {
   background: #fff;
   margin: auto;
@@ -197,6 +203,19 @@ table tr td .pretty {
   margin-bottom: 75px;
   font-size: 15px;
   font-weight: 500;
+}
+.not-found-message {
+  text-align: center;
+  padding-top: 50px;
+}
+.not-found-message img {
+  width: 600px;
+}
+.not-found-message p {
+  margin-top: -50px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #5C7CA1;
 }
 @media only screen and (max-width: 768px) {
   .survey {
