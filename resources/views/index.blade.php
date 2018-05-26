@@ -13,6 +13,10 @@
 
 		<div class="line" v-if="surveyActivated"></div>
 
+
+		<div class="header-message" v-if="disableSubmit">Khảo sát đã được hoàn thành, xin mời xem lại kết quả.</div>
+
+
 		<div v-if="!surveyActivated">
 			<div class="frm">
 				<div class="form-group text-lg">
@@ -29,27 +33,6 @@
 					</div>
 					<span class="error-message" v-if="manager.invalid">Tên chủ nhiệm đề tài không đúng</span>
 				</div>
-
-				<!-- <div class="form-group text-lg">
-					<label>Vai trò của bạn trong đề tài</label>
-					<div class="checkbox">
-						<div class="pretty p-default p-round p-fill">
-					        <input type="radio" name="rl">
-					        <div class="state">
-					        	<label>Thư ký đề tài</label>
-					        </div>
-					    </div>
-					</div>
-
-					<div class="checkbox">
-						<div class="pretty p-default p-round p-fill">
-					        <input type="radio" name="rl">
-					        <div class="state">
-					        	<label>Người thực hiện đề tài</label>
-					        </div>
-					    </div>
-					</div>
-				</div> -->
 
 				<div class="form-group buttons-group">
 					<a href="javascript:;" class="button right" @click="start">Tiếp tục</a>

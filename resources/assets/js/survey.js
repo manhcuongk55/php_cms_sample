@@ -1,6 +1,7 @@
 require('./bootstrap.js');
 
 import {QUESTION_RADIO, QUESTION_TEXT, SURVEYOR_DONE} from './survey.constants';
+import {convertViToEn} from './survey.helper';
 
 new Vue({
 	el: '#survey',
@@ -52,10 +53,25 @@ new Vue({
 		start(){
 			var $this = this;
 			if(!this.surveyActivated){
-				if($this.manager.name.toLowerCase() != $this.topic.manager.toLowerCase()){
-					$this.manager.invalid = true;
 
+				//Check topic manager name
+				$this.topic.manager = convertViToEn($this.topic.manager.toLowerCase());
+
+				var typedManagerNameArray = $this.manager.name.split(/[\s]+/);
+				var realManagerNameArray = $this.topic.manager.split(/[\s]+/);
+				var realManagerName = realManagerNameArray[realManagerNameArray.length-1];
+				
+				if(convertViToEn($this.manager.name.toLowerCase()).indexOf(realManagerName) < 0){
+					$this.manager.invalid = true;
 					return;
+				}
+
+				for(var i=0; i<typedManagerNameArray.length; i++){
+					var str = typedManagerNameArray[i];
+					if($this.topic.manager.indexOf(convertViToEn(str.toLowerCase())) < 0){
+						$this.manager.invalid = true;
+						return;
+					}
 				}
 			}
 

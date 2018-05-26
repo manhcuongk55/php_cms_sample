@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/{topic}-{surveyor}', "SurveyController@index");
+Route::get('/home', 'HomeController@index');
 Route::post('/survey-data', 'SurveyController@questions');
 Route::post('/save', 'SurveyController@save');
 Route::post('/results-data', 'SurveyController@results');
@@ -36,3 +36,5 @@ Route::prefix('manager')->group(function () {
 
 });
 
+
+Route::get('/survey/{param?}', 'SurveyController@index');

@@ -14,9 +14,27 @@ class SurveyController extends Controller
 		
 	}	
 
-    public function index($topicCode, $surveyorId){
+    public function index($param = ''){
+        if(!$param){
+            die('Vui lòng nhập đúng url của khảo sát để bắt đầu');
+        }
 
-    	$surveyor = Surveyor::get($surveyorId);
+        $param = urldecode($param);
+
+        //Parse topicCode and surveyorId
+        $num = 0;
+        for($i=strlen($param)-1; $i>=0; $i--){
+            $c = $param[$i];
+            if($c=='-'){
+                $num = $i;
+                break;
+            }
+        }
+        $topicCode = substr($param, 0, $num);
+        $surveyorId = substr($param, $num+1);
+
+    	//Validate relation between surveyor and topic
+        $surveyor = Surveyor::get($surveyorId);
     	$topic = Topic::getByCode($topicCode);
 
     	if(!$topic || !$surveyor){
@@ -27,6 +45,7 @@ class SurveyController extends Controller
     		die('This survey does not belong to the surveyor.');
     	}
 
+        //Return view
     	return \View::make('index')->with([
             'topic' => json_encode($topic),
             'surveyorId' => $surveyorId,

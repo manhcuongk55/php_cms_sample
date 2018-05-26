@@ -48109,7 +48109,9 @@ module.exports = __webpack_require__(46);
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__survey_constants__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__survey_helper__ = __webpack_require__(48);
 __webpack_require__(12);
+
 
 
 
@@ -48163,10 +48165,25 @@ new Vue({
 		start: function start() {
 			var $this = this;
 			if (!this.surveyActivated) {
-				if ($this.manager.name.toLowerCase() != $this.topic.manager.toLowerCase()) {
-					$this.manager.invalid = true;
 
+				//Check topic manager name
+				$this.topic.manager = Object(__WEBPACK_IMPORTED_MODULE_1__survey_helper__["a" /* convertViToEn */])($this.topic.manager.toLowerCase());
+
+				var typedManagerNameArray = $this.manager.name.split(/[\s]+/);
+				var realManagerNameArray = $this.topic.manager.split(/[\s]+/);
+				var realManagerName = realManagerNameArray[realManagerNameArray.length - 1];
+
+				if (Object(__WEBPACK_IMPORTED_MODULE_1__survey_helper__["a" /* convertViToEn */])($this.manager.name.toLowerCase()).indexOf(realManagerName) < 0) {
+					$this.manager.invalid = true;
 					return;
+				}
+
+				for (var i = 0; i < typedManagerNameArray.length; i++) {
+					var str = typedManagerNameArray[i];
+					if ($this.topic.manager.indexOf(Object(__WEBPACK_IMPORTED_MODULE_1__survey_helper__["a" /* convertViToEn */])(str.toLowerCase())) < 0) {
+						$this.manager.invalid = true;
+						return;
+					}
 				}
 			}
 
@@ -48307,6 +48324,28 @@ new Vue({
 var QUESTION_RADIO = 2;
 var QUESTION_TEXT = 0;
 var SURVEYOR_DONE = 2;
+
+/***/ }),
+/* 48 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return convertViToEn; });
+var convertViToEn = function convertViToEn(str) {
+    str = str.toLowerCase();
+    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+    str = str.replace(/đ/g, "d");
+    str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'| |\"|\&|\#|\[|\]|~|$|_/g, "-");
+    str = str.replace(/-+-/g, "-");
+    str = str.replace(/^\-+|\-+$/g, "");
+
+    return str.replace(/[-]+/g, " ");
+};
 
 /***/ })
 /******/ ]);
