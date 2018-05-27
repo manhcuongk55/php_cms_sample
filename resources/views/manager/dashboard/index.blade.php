@@ -4,10 +4,17 @@
 @endsection
 
 @section('content')
-    <div class="container-fluid">
-        <div class="import-file" id="import">
+    <div class="container-fluid" id="import">
+        <div class="loader" v-show="loading">
+            <img src="{{url('/')}}/images/loader.gif">
+        </div>
+
+        <div class="import-file" v-show="!loading">
             <input type="file" id="file" @change="upload($event)" ref="file">
         </div>
+
+
+        <a href="{{url('/')}}/storage/upload/7286897090.xls" style="display: inline-block;margin-top: 30px;">Tải file import mẫu</a>
     </div>
 @endsection
 

@@ -9,3 +9,11 @@
 .action-group a.export-topic{
 	color: #f8b32d;
 }
+
+a, a:hover, a:focus{
+	color: #6690dd;
+}
+
+.loader img{
+	width: 16px;
+}

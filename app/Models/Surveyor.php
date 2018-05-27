@@ -37,7 +37,7 @@ class Surveyor extends Model
         for ($i = 1; $i <= $number; $i++) {
             $arr = [
                 'id' => $urlId,
-                'url' => '/' . $topic->code . '-' . $urlId,
+                'url' => '/' . urlencode($topic->code . '-' . $urlId),
                 'topic_id' => $id,
                 'status' => 0
             ];

@@ -35,6 +35,7 @@ Route::prefix('manager')->group(function () {
     });
 
     Route::post('/upload', 'DashboardController@upload');
+    Route::get('/save-file', 'DashboardController@save');
 
 });
 

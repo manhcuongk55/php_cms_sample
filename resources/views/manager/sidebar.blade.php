@@ -14,7 +14,7 @@
             </a>
         </li>
         <li>
-            <a class="" href="{{ url('/').'/manager/topics'}}" data-toggle="collapse" data-target="#dashboard_dr">
+            <a class="" href="{{ url('/').'/manager/topics'}}" id="topic-menu">
                 <div class="pull-left">
                     <i class="zmdi zmdi-format-size mr-20"></i>
                     <span class="right-nav-text">Danh mục đề tài</span></div>
@@ -22,7 +22,5 @@
                 <div class="clearfix"></div>
             </a>
         </li>
-
-
     </ul>
 </div>
