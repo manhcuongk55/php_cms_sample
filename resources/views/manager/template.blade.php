@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>Survey</title>
+    <title>Survey | Administrator</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{url('/')}}/favicon.ico">
@@ -25,8 +25,8 @@
     <!-- vector map CSS -->
     <!-- <link href="vendors/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" type="text/css"/> -->
 
-    <link href="{{asset('/../node_modules/toastr/build/toastr.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{url('/')}}/../bower_components/highcharts/css/highcharts.scss">
+    <!-- <link href="{{asset('/../node_modules/toastr/build/toastr.css')}}" rel="stylesheet" type="text/css"> -->
+    <!-- <link href="{{url('/')}}/../bower_components/highcharts/css/highcharts.scss"> -->
     <!-- Custom CSS -->
 
     <link href="{{url('/')}}/css/style.css" rel="stylesheet" type="text/css">
@@ -40,13 +40,13 @@
     <div class="la-anim-1"></div>
 </div>
 <!-- /Preloader -->
-<div class="wrapper  theme-2-active pimary-color-blue">
+<div class="wrapper  theme-4-active pimary-color-blue">
     <!-- Top Menu Items -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="mobile-only-brand pull-left">
             <div class="nav-header pull-left">
                 <div class="logo-wrap">
-                    <a href="index.html">
+                    <a href="">
                         <img class="brand-img" src="{{url('/')}}/img/logo.png" alt="brand"/>
                         <span class="brand-text">Survey</span>
                     </a>
@@ -566,7 +566,7 @@
         <footer class="footer container-fluid pl-30 pr-30">
             <div class="row">
                 <div class="col-sm-12">
-                    <p>2017 &copy; Survey</p>
+                    <p>2018 &copy; Survey</p>
                 </div>
             </div>
         </footer>
@@ -584,8 +584,8 @@
 
 <!-- Bootstrap Core JavaScript -->
 <script src="{{url('/')}}/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="{{url('/')}}/../bower_components/jquery-file-download/src/Scripts/jquery.fileDownload.js"></script>
-<script src="{{url('/')}}/../bower_components/highcharts/highcharts.js"></script>
+<script src="{{url('/')}}/vendors/bower_components/jquery-file-download/src/Scripts/jquery.fileDownload.js"></script>
+<!-- <script src="{{url('/')}}/vendors/bower_components/highcharts/highcharts.js"></script> -->
 
 <!-- Vector Maps JavaScript -->
 <script src="{{url('/')}}/vendors/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
@@ -640,7 +640,10 @@
 <!-- Bootstrap Select JavaScript -->
 <script src="{{url('/')}}/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
 
-<script src="{{asset('/../node_modules/toastr/build/toastr.min.js')}}"></script>
+<script src="{{url('/')}}/vendors/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="{{url('/')}}/vendors/bower_components/jquery.nicescroll/jquery.nicescroll.min.js"></script>
+
+<!-- <script src="{{asset('/../node_modules/toastr/build/toastr.min.js')}}"></script> -->
 <script src="{{ asset('js/bootbox.min.js') }}" type="application/javascript"></script>
 <!-- Init JavaScript -->
 <script src="{{url('/')}}/js/init.js"></script>
@@ -654,6 +657,10 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    window.app = {
+        baseURL: "{{url('/')}}"
+    }
 </script>
 @yield('scripts')
 

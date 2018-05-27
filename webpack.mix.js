@@ -13,4 +13,5 @@ let mix = require('laravel-mix');
 
 mix.js('resources/assets/js/app.js', 'public/js')
 	.js('resources/assets/js/survey.js', 'public/js')
+	.js('resources/assets/js/manager/import.js', 'public/js')
 	.less('resources/assets/less/survey.less', 'public/css');

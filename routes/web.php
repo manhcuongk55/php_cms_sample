@@ -34,6 +34,8 @@ Route::prefix('manager')->group(function () {
         Route::get('/export', 'TopicController@export')->name('export');
     });
 
+    Route::post('/upload', 'DashboardController@upload');
+
 });
 
 Route::get('/', 'SurveyController@index');

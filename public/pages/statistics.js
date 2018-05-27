@@ -29,8 +29,8 @@ var Statistics = function () {
                     "sLoadingRecords": "Đang tải..",
                     "sSearch": "Tìm kiếm:",
                     "sZeroRecords": "Không có bản ghi nào",
-                    "sInfoFiltered": " - lọc từ _MAX_ bản ghi",
-                    "sInfo": "Hiển thị (_START_ - _END_) của tổng số _TOTAL_ bản ghi",
+                    "sInfoFiltered": "",
+                    "sInfo": "Hiển thị (_START_ - _END_) của tổng số _TOTAL_",
                     "oPaginate": {
                         "sFirst": "Trang đầu",
                         "sPrevious": "Trước",
@@ -57,15 +57,19 @@ var Statistics = function () {
                     },
                     {
                         data: 'surveyors_count',
+                        sortable: false,
                     },
                     {
                         data: 'new',
+                        sortable: false,
                     },
                     {
                         data: 'seen',
+                        sortable: false,
                     },
                     {
                         data: 'done',
+                        sortable: false,
                     },
                     {
                         data: 'rendered',
@@ -85,10 +89,10 @@ var Statistics = function () {
                         className: 'text-center action-group',
                         render: function (data, type, row) {
                             if (row['rendered'] == 0) {
-                                return '<a href="javascript:;" class="btn btn-primary btn-small render-url" data-id="' + row['id'] + '">Tạo URL</a>';
+                                return '<a href="javascript:;" class="render-url" data-id="' + row['id'] + '">Tạo URL</a>';
                             } else {
                                 // return '<a href="javascript:;" class="btn btn-success btn-small detail-topic" data-id="' + row['id'] + '">Chi tiết</a>'
-                                return '<a href="javascript:;" class="btn btn-success btn-small export-topic" data-id="' + row['id'] + '">Xuất báo cáo</a>';
+                                return '<a href="javascript:;" class="export-topic" data-id="' + row['id'] + '">Xuất báo cáo</a>';
                             }
                         }
                     }
@@ -96,7 +100,7 @@ var Statistics = function () {
             });
             tableTopics.on('order.dt search.dt draw.dt', function () {
                 tableTopics.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
-                    cell.innerHTML = i + 1;
+                    cell.innerHTML = 1 + i + (parseInt(this.page.info().page) * parseInt(this.page.info().length));
                 });
             });
         }

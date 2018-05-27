@@ -1,5 +1,11 @@
 .action-group a{
-    padding: 2px 5px;
+        padding: 2px 5px;
     margin: 0px 2px;
-    font-size: 11px;
+    font-size: 14px;
+    color: #6690dd;
+    font-weight: 500;
+}
+
+.action-group a.export-topic{
+	color: #f8b32d;
 }

@@ -35,7 +35,9 @@ class TopicController extends Controller
      */
     public function index()
     {
-        return \View::make('manager.topics.index');
+        return \View::make('manager.topics.index')->with([
+            'menu' => 'topics'
+        ]);
     }
 
     public function listing(Request $request)
@@ -58,7 +60,7 @@ class TopicController extends Controller
         return response()->json([
             'data' => $results,
             "recordsTotal" => $total,
-            "recordsFiltered" => count($results),
+            "recordsFiltered" => $total,
         ]);
     }
 

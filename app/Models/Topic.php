@@ -27,6 +27,9 @@ class Topic extends Model
 
     public static function listing($start = 0, $length = 10, $keyword = '', $orderBy = 'code', $orderType = 'asc', $isCounting = false)
     {
+
+        // die($start);
+
         $topic = Topic::withCount('surveyors')
             ->withCount(['surveyors as new' => function ($q) {
                 $q->where('status', '=', 0);
@@ -38,14 +41,12 @@ class Topic extends Model
                 $q->where('status', '=', 2);
             }])
             ->where('code', 'LIKE', "%$keyword%")
-            ->orWhere('manager', 'LIKE', "%$keyword%")
-            ->skip($start)
-            ->take($length);
+            ->orWhere('manager', 'LIKE', "%$keyword%");
 
         if ($isCounting) {
             return $topic->count();
         } else {
-            return $topic->orderBy($orderBy, $orderType)->get();
+            return $topic->limit($length)->offset($start)->orderBy($orderBy, $orderType)->get();
         }
     }
 

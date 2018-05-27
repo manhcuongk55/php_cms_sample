@@ -5,20 +5,20 @@
             <i class="zmdi zmdi-more"></i>
         </li>
         <li>
-            <a class="" href="{{url('/')}}/manager/dashboard" data-toggle="collapse" data-target="#dashboard_dr">
+            <a class="{{$menu=='dashboard' ? 'active' : ''}}" href="{{url('/')}}/manager/dashboard">
                 <div class="pull-left">
-                    <i class="zmdi zmdi-chart-donut mr-20"></i>
-                    <span class="right-nav-text">Dashboard</span></div>
-                <div class="pull-right"></div>
+                    <i class="zmdi zmdi-book mr-20"></i>
+                    <span class="right-nav-text">Import</span></div>
+                <div class="pull-right"><i class="zmdi zmdi-caret-right"></i></div>
                 <div class="clearfix"></div>
             </a>
         </li>
         <li>
-            <a class="" href="{{ url('/').'/manager/topics'}}" data-toggle="collapse" data-target="#dashboard_dr">
+            <a class="{{$menu=='topics' ? 'active' : ''}}" href="{{ url('/').'/manager/topics'}}" data-toggle="collapse" data-target="#dashboard_dr">
                 <div class="pull-left">
-                    <i class="zmdi zmdi-landscape mr-20"></i>
-                    <span class="right-nav-text">Quản lý đề tài</span></div>
-                <div class="pull-right"></div>
+                    <i class="zmdi zmdi-format-size mr-20"></i>
+                    <span class="right-nav-text">Danh mục đề tài</span></div>
+                <div class="pull-right"><i class="zmdi zmdi-caret-right"></i></div>
                 <div class="clearfix"></div>
             </a>
         </li>

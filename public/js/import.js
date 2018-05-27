@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 45);
+/******/ 	return __webpack_require__(__webpack_require__.s = 49);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -48095,256 +48095,49 @@ module.exports = function spread(callback) {
 /* 42 */,
 /* 43 */,
 /* 44 */,
-/* 45 */
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(46);
+module.exports = __webpack_require__(50);
 
 
 /***/ }),
-/* 46 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__survey_constants__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__survey_helper__ = __webpack_require__(48);
 __webpack_require__(12);
 
-
-
-
 new Vue({
-	el: '#survey',
+	el: '#import',
 	data: {
-		QUESTION_RADIO: __WEBPACK_IMPORTED_MODULE_0__survey_constants__["a" /* QUESTION_RADIO */],
-		QUESTION_TEXT: __WEBPACK_IMPORTED_MODULE_0__survey_constants__["b" /* QUESTION_TEXT */],
-		topic: JSON.parse(app.topic),
-		surveyor: JSON.parse(app.surveyor),
-		manager: {
-			name: '',
-			invalid: false
-		},
-		surveyActivated: false,
-		surveyDone: false,
-		page: 1,
-		categories: [],
-		results: [],
-		errors: [],
-		disableSubmit: false,
-		procesing: false,
-		loading: false
+		file: null
 	},
-	mounted: function mounted() {
-		if (this.surveyor.status == __WEBPACK_IMPORTED_MODULE_0__survey_constants__["c" /* SURVEYOR_DONE */]) {
-			this.surveyActivated = true;
-			this.disableSubmit = true;
-
-			var $this = this;
-			$this.loading = true;
-			axios.post(app.baseURL + '/results-data', {
-				surveyorId: app.surveyorId
-			}).then(function (response) {
-				var res = [];
-				_.each(response.data.data, function (o) {
-					res.push({
-						question: o.question_id,
-						answer: o.answer
-					});
-				});
-
-				$this.results = res;
-
-				$this.start();
-			});
-		}
-	},
+	mounted: function mounted() {},
 
 	methods: {
-		start: function start() {
+		upload: function upload(e) {
 			var $this = this;
-			if (!this.surveyActivated) {
 
-				//Check topic manager name
-				$this.topic.manager = Object(__WEBPACK_IMPORTED_MODULE_1__survey_helper__["a" /* convertViToEn */])($this.topic.manager.toLowerCase());
+			var frm = new FormData();
+			frm.append('file', this.$refs.file.files[0]);
 
-				var typedManagerNameArray = $this.manager.name.split(/[\s]+/);
-				var realManagerNameArray = $this.topic.manager.split(/[\s]+/);
-				var realManagerName = realManagerNameArray[realManagerNameArray.length - 1];
-
-				if (Object(__WEBPACK_IMPORTED_MODULE_1__survey_helper__["a" /* convertViToEn */])($this.manager.name.toLowerCase()).indexOf(realManagerName) < 0) {
-					$this.manager.invalid = true;
-					return;
+			axios.post(app.baseURL + '/manager/upload', frm, {
+				headers: {
+					'Content-Type': 'multipart/form-data'
 				}
-
-				for (var i = 0; i < typedManagerNameArray.length; i++) {
-					var str = typedManagerNameArray[i];
-					if ($this.topic.manager.indexOf(Object(__WEBPACK_IMPORTED_MODULE_1__survey_helper__["a" /* convertViToEn */])(str.toLowerCase())) < 0) {
-						$this.manager.invalid = true;
-						return;
-					}
-				}
-			}
-
-			$this.manager.invalid = false;
-
-			if ($this.processing) {
-				return;
-			}
-
-			$this.loading = true;
-			$this.processing = true;
-			axios.post(app.baseURL + '/survey-data', {
-				page: $this.page,
-				surveyorId: app.surveyorId
 			}).then(function (response) {
-				$this.surveyActivated = true;
-
-				if (_.isEmpty(response.data.data)) {
-
-					if (!$this.disableSubmit) {
-						axios.post(app.baseURL + '/save', {
-							surveyorId: app.surveyorId,
-							results: $this.results
-						}).then(function (response) {
-							$this.surveyDone = true;
-						}).catch(function (e) {});
-					} else {
-						$this.surveyDone = true;
-					}
-				} else {
-					$this.categories = response.data.data;
-				}
-
-				$this.loading = false;
-				$this.processing = false;
-			}).catch(function (e) {
-				$this.processing = false;
-				$this.loading = false;
-				console.error(e);
+				e.target.value = '';
+			}).catch(function (error) {
+				console.error(error);
+				e.target.value = '';
 			});
-		},
-		questions: function questions(array, type) {
-			return _.filter(array, function (o) {
-				return parseInt(o.type) == type;
-			});
-		},
-		next: function next() {
-			console.log('next');
-			console.log(this.validate());
-			if (this.validate()) {
-				this.page++;
-				this.start();
-			}
-		},
-		back: function back() {
-			if (this.page > 1) {
-				this.page--;
-				this.start();
-			}
-		},
-		result: function result(question, answer, cat) {
-			var $this = this;
-
-			var q = _.find($this.results, function (o) {
-				return o.question == question.id;
-			});
-
-			var a = answer.id ? answer.id : answer.target.value;
-
-			if (_.isEmpty(q)) {
-				$this.results.push({
-					question: question.id,
-					answer: a
-				});
-			} else {
-				q.answer = a;
-			}
-
-			$this.validate();
-		},
-		validate: function validate() {
-			var $this = this;
-			$this.categories = _.map($this.categories, function (c) {
-				c.error = false;
-				return c;
-			});
-
-			for (var i = 0; i < $this.categories.length; i++) {
-				var questions = $this.categories[i].questions;
-
-				for (var k = 0; k < questions.length; k++) {
-					if (parseInt(questions[k].required) > 0) {
-						var q = _.find($this.results, function (o) {
-							return parseInt(o.question) == parseInt(questions[k].id);
-						});
-
-						if (_.isEmpty(q)) {
-							$this.categories[i].error = true;
-						}
-					}
-				}
-			}
-
-			var errorCat = _.find($this.categories, function (c) {
-				return c.error == true;
-			});
-
-			return errorCat ? false : true;
-		},
-		checked: function checked(q, a) {
-			var $this = this;
-
-			var item = _.find($this.results, function (o) {
-				return o.question == q.id && o.answer == a.id;
-			});
-
-			return !_.isEmpty(item);
-		},
-		text: function text(q) {
-			var $this = this;
-			var item = _.find($this.results, function (o) {
-				return o.question == q.id;
-			});
-
-			return item ? item.answer : '';
 		}
 	}
 });
-
-/***/ }),
-/* 47 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return QUESTION_RADIO; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return QUESTION_TEXT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return SURVEYOR_DONE; });
-var QUESTION_RADIO = 2;
-var QUESTION_TEXT = 0;
-var SURVEYOR_DONE = 2;
-
-/***/ }),
-/* 48 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return convertViToEn; });
-var convertViToEn = function convertViToEn(str) {
-    str = str.toLowerCase();
-    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
-    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
-    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
-    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
-    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
-    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
-    str = str.replace(/đ/g, "d");
-    str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'| |\"|\&|\#|\[|\]|~|$|_/g, "-");
-    str = str.replace(/-+-/g, "-");
-    str = str.replace(/^\-+|\-+$/g, "");
-
-    return str.replace(/[-]+/g, " ");
-};
 
 /***/ })
 /******/ ]);

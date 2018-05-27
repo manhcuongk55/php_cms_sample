@@ -8,6 +8,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Topic;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardController extends Controller
 {
@@ -28,7 +30,9 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return \View::make('manager.dashboard.index');
+        return \View::make('manager.dashboard.index')->with([
+            'menu' => 'dashboard'
+        ]);
     }
 
 
@@ -42,5 +46,15 @@ class DashboardController extends Controller
     {
         $data = Topic::getTop10();
         return response()->json($data);
+    }
+
+    public function upload(Request $request){
+        $path = $request->file('file')->store('upload');
+
+        $fileName = url('/') . '/storage/' . $path;
+        $myfile = fopen($fileName, "r") or die("Unable to open file!");
+        echo fread($myfile,filesize($fileName));
+        fclose($myfile);
+
     }
 }

@@ -24819,7 +24819,6 @@ module.exports = Vue;
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-
 window._ = __webpack_require__(13);
 window.Popper = __webpack_require__(3).default;
 
