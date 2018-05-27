@@ -21,7 +21,8 @@ class SurveyController extends Controller
             ]);
         }
 
-        $param = urldecode($param);
+        $param = base64_decode($param);
+        // die($param);
 
         //Parse topicCode and surveyorId
         $num = 0;

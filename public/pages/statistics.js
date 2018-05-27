@@ -111,7 +111,7 @@ var Statistics = function () {
         $(document).on('click', '.render-url', function () {
             var data = tableTopics.row($(this).parents('tr')).data();
             if (data.rendered == 1) {
-                toastr.error('Chủ đề này đã được thống kê', 'Thông báo');
+                // toastr.error('Chủ đề này đã được thống kê', 'Thông báo');
                 return;
             }
             var dialog = bootbox.dialog({
@@ -133,7 +133,7 @@ var Statistics = function () {
                             var number = parseInt($(Constants.ID.NUMBER_URL).val());
                             if ($(Constants.ID.NUMBER_URL).val().trim() == '' ||
                                 isNaN($(Constants.ID.NUMBER_URL).val()) || number == 0) {
-                                toastr.error('Số lượng URL không hợp lệ');
+                                alert('Số lượng URL không hợp lệ');
                                 return;
                             } else {
                                 renderUrl(data.id, number);
@@ -161,15 +161,15 @@ var Statistics = function () {
             'success': function (data) {
                 dialog.modal('hide');
                 if (data != null && data.code == 1) {
-                    toastr.success('Tạo URL thành công', 'Thông báo');
+                    // toastr.success('Tạo URL thành công', 'Thông báo');
                     tableTopics.ajax.reload();
                 } else {
-                    toastr.error('Có lỗi xảy ra. Vui lòng thử lại sau', 'Thông báo');
+                    // toastr.error('Có lỗi xảy ra. Vui lòng thử lại sau', 'Thông báo');
                 }
             },
             'error': function (err, msg) {
                 dialog.modal('hide');
-                toastr.error('Có lỗi xảy ra. Vui lòng thử lại sau', 'Thông báo');
+                // toastr.error('Có lỗi xảy ra. Vui lòng thử lại sau', 'Thông báo');
             }
 
         })
@@ -179,7 +179,7 @@ var Statistics = function () {
         $(document).on('click', '.export-topic', function () {
             var data = tableTopics.row($(this).parents('tr')).data();
             if (data.rendered == 0) {
-                toastr.error('Chủ đề này chưa được khảo sát ', 'Thông báo');
+                alert('Chủ đề này chưa được khảo sát ', 'Thông báo');
                 return;
             }
             // var dialog = bootbox.dialog({
@@ -196,7 +196,7 @@ var Statistics = function () {
                     dialog.modal('hide');
                 },
                 failCallback: function (responseHtml, url) {
-                    toastr.error('Có lỗi xảy ra. Vui lòng thử lại sau', 'Thông báo');
+                    // toastr.error('Có lỗi xảy ra. Vui lòng thử lại sau', 'Thông báo');
                     dialog.modal('hide');
                 }
             });

@@ -35,9 +35,10 @@ class Surveyor extends Model
         $urlId = intval(Surveyor::max('id')) + 1;
 
         for ($i = 1; $i <= $number; $i++) {
+            $url = base64_encode($topic->code . '-' . $urlId);
             $arr = [
                 'id' => $urlId,
-                'url' => '/' . urlencode($topic->code . '-' . $urlId),
+                'url' => url('/') . '/survey/' . $url,
                 'topic_id' => $id,
                 'status' => 0
             ];

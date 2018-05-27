@@ -78,7 +78,7 @@ class DashboardController extends Controller
                 $sv = new Surveyor();
                 if($tp){
                     $sv->topic_id = $tp->id;
-                    $sv->url = '/' . urlencode($tp->code . '-' . $urlId);
+                    $sv->url = url('/') . '/survey/' . base64_encode($tp->code . '-' . $urlId);
                     $sv->status = 0;
                     $urlId++;
                     $sv->save();
