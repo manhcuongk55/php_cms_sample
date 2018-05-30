@@ -79,8 +79,18 @@ class TopicController extends Controller
     public function export(Request $request)
     {
         $id = $request->input('id');
-        $topic = Topic::find($id);
+        $all = false;
+        if ($id) {
+            $topic = Topic::find($id);
+        } else {
+            $topic = Topic::where('rendered', 1)->get()->toArray();
+            $collection = collect($topic);
 
+            $topicId = $collection->map(function ($item, $key) {
+                return $item['id'];
+            });
+            $all = true;
+        }
         $cats = Category::with('questions')->get();
         $collection = collect($cats);
         $groupedCats = $collection->groupBy('page')->toArray();
@@ -90,20 +100,36 @@ class TopicController extends Controller
         $groupedAnswers = $collection->groupBy('category_id')->toArray();
 
         $arrAnswers = $answers->toArray();
-        $surveyors = Surveyor::with('results')->where('topic_id', $id)->get()->toArray();
+        if ($all) {
+            $surveyors = Surveyor::with('results')->whereIn('topic_id', $topicId)->get()->toArray();
+        } else {
+            $surveyors = Surveyor::with('results')->where('topic_id', $id)->get()->toArray();
+        }
 
-        Excel::create('Topic statistic', function ($excel) use ($groupedCats, $groupedAnswers, $surveyors, $arrAnswers, $topic) {
-
-            $excel->sheet('Detail', function ($sheet) use ($groupedCats, $groupedAnswers, $surveyors, $arrAnswers, $topic) {
-                $sheet->loadView('manager.topics.partitals.export-topic')
-                    ->with('categories', $groupedCats)
-                    ->with('answers', $groupedAnswers)
-                    ->with('surveyors', $surveyors)
-                    ->with('mapAnswers', $arrAnswers)
-                    ->with('topic', $topic);
-                $sheet->setOrientation('landscape');
-            });
+        Excel::create('Topic statistic', function ($excel) use ($groupedCats, $groupedAnswers, $surveyors, $arrAnswers, $topic, $all) {
+            if ($all) {
+                $excel->sheet('General', function ($sheet) use ($groupedCats, $groupedAnswers, $surveyors, $arrAnswers, $topic) {
+                    $sheet->loadView('manager.topics.partitals.export-all-topic')
+                        ->with('categories', $groupedCats)
+                        ->with('answers', $groupedAnswers)
+                        ->with('surveyors', $surveyors)
+                        ->with('mapAnswers', $arrAnswers)
+                        ->with('topics', $topic);
+                    $sheet->setOrientation('landscape');
+                });
+            } else {
+                $excel->sheet('Detail', function ($sheet) use ($groupedCats, $groupedAnswers, $surveyors, $arrAnswers, $topic) {
+                    $sheet->loadView('manager.topics.partitals.export-topic')
+                        ->with('categories', $groupedCats)
+                        ->with('answers', $groupedAnswers)
+                        ->with('surveyors', $surveyors)
+                        ->with('mapAnswers', $arrAnswers)
+                        ->with('topic', $topic);
+                    $sheet->setOrientation('landscape');
+                });
+            }
 
         })->export('xls');
+
     }
 }

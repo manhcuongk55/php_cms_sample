@@ -176,6 +176,21 @@ var Statistics = function () {
     }
 
     var handleExportTopic = function () {
+        $(document).on('click', '#btn-export-all', function () {
+            $.fileDownload(Constants.URL.EXPORT_TOPIC, {
+                httpMethod: "GET",
+                data: {
+                    id: ''
+                },
+                successCallback: function (url) {
+                    dialog.modal('hide');
+                },
+                failCallback: function (responseHtml, url) {
+                    // toastr.error('Có lỗi xảy ra. Vui lòng thử lại sau', 'Thông báo');
+                    dialog.modal('hide');
+                }
+            });
+        });
         $(document).on('click', '.export-topic', function () {
             var data = tableTopics.row($(this).parents('tr')).data();
             if (data.rendered == 0) {
@@ -212,8 +227,6 @@ var Statistics = function () {
             handleExportTopic();
         }
     }
-
-
 }
 
 $(document).ready(function () {

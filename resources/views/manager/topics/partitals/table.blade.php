@@ -1,11 +1,14 @@
 <div class="col-md-12">
     <div class="panel panel-default card-view">
-        <!-- <div class="panel-heading">
+        <div class="panel-heading">
             <div class="pull-left">
-                <h6 class="panel-title txt-dark">Quản lý đề tài</h6>
+                <h6 class="panel-title txt-dark">Danh mục đề tài</h6>
+            </div>
+            <div class="pull-right">
+                <button id="btn-export-all" class="btn btn-success">Xuất báo cáo tất cả</button>
             </div>
             <div class="clearfix"></div>
-        </div> -->
+        </div>
         <div class="panel-wrapper collapse in">
             <div class="panel-body">
                 <div class="table-wrap">

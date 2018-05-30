@@ -6,7 +6,6 @@
 @endsection
 @section('content')
     <div class="container-fluid">
-        <!-- Row -->
         <div class="row">
             @include('manager.topics.partitals.table')
         </div>

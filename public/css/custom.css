@@ -1,19 +1,23 @@
-.action-group a{
-        padding: 2px 5px;
+.action-group a {
+    padding: 2px 5px;
     margin: 0px 2px;
     font-size: 14px;
     color: #6690dd;
     font-weight: 500;
 }
 
-.action-group a.export-topic{
-	color: #f8b32d;
+.action-group a.export-topic {
+    color: #f8b32d;
 }
 
-a, a:hover, a:focus{
-	color: #6690dd;
+a, a:hover, a:focus {
+    color: #6690dd;
 }
 
-.loader img{
-	width: 16px;
+.loader img {
+    width: 16px;
+}
+
+#btn-export-all{
+    background-color: #5cb85c !important;
 }
