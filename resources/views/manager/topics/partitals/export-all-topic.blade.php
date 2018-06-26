@@ -94,12 +94,24 @@
                                     if ($question['id'] == $result['question_id']) {
                                         $str = $result['answer'];
                                         if ($question['type'] != '0') {
+                                            if ($question['note'] == 'checkbox') {
+                                                $arrAnswers = explode(',', $result['answer']);
+                                            } else {
+                                                $arrAnswers = [$result['answer']];
+                                            }
+                                            $str = '';
                                             foreach ($mapAnswers as $answer) {
-                                                if ($answer['id'] == $result['answer']) {
-                                                    $str = $answer['content'];
-                                                    break;
+                                                foreach ($arrAnswers as $item) {
+                                                    if ($answer['id'] == $item) {
+                                                        $str .= $answer['content'];
+                                                        if (count($arrAnswers) > 1) {
+                                                            $str .= ' ; ';
+                                                        }
+                                                        break;
+                                                    }
                                                 }
                                             }
+
                                         }
                                         $check = 0;
                                         break;

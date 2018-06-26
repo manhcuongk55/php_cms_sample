@@ -91,7 +91,7 @@ class TopicController extends Controller
             });
             $all = true;
         }
-        $cats = Category::with('questions')->get();
+        $cats = Category::with('questions')->orderBy('page','asc')->get();
         $collection = collect($cats);
         $groupedCats = $collection->groupBy('page')->toArray();
 
