@@ -156,7 +156,6 @@ new Vue({
                     value[i] = $(this).val();
                 });
             }
-            console.log(value);
             if (_.isEmpty(q)) {
                 $this.results.push({
                     question: question.id,
@@ -204,8 +203,8 @@ new Vue({
             var $this = this;
             var item = _.find($this.results, function (o) {
                 var answers = [o.answer];
-                if (o.answer.indexOf(',') >= 0) {
-                    answers = o.answer.split(',');
+                if ((o.answer+'').indexOf(',')) {
+                    answers = (o.answer+'').split(',');
                 }
                 return o.question == q.id && _.includes(answers, '' + a.id);
             });
@@ -214,10 +213,10 @@ new Vue({
         },
         text(q){
             var $this = this;
+
             var item = _.find($this.results, function (o) {
                 return o.question == q.id;
             });
-
             return item ? item.answer : '';
         }
     }

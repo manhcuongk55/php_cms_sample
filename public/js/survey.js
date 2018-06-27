@@ -48107,8 +48107,8 @@ module.exports = __webpack_require__(46);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__survey_constants__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__survey_helper__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__survey_constants__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__survey_helper__ = __webpack_require__(48);
 __webpack_require__(12);
 
 
@@ -48259,7 +48259,6 @@ new Vue({
                     value[i] = $(this).val();
                 });
             }
-            console.log(value);
             if (_.isEmpty(q)) {
                 $this.results.push({
                     question: question.id,
@@ -48304,8 +48303,8 @@ new Vue({
             var $this = this;
             var item = _.find($this.results, function (o) {
                 var answers = [o.answer];
-                if (o.answer.indexOf(',') >= 0) {
-                    answers = o.answer.split(',');
+                if ((o.answer + '').indexOf(',')) {
+                    answers = (o.answer + '').split(',');
                 }
                 return o.question == q.id && _.includes(answers, '' + a.id);
             });
@@ -48314,25 +48313,17 @@ new Vue({
         },
         text: function text(q) {
             var $this = this;
+
             var item = _.find($this.results, function (o) {
                 return o.question == q.id;
             });
-
             return item ? item.answer : '';
         }
     }
 });
 
 /***/ }),
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */
+/* 47 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48346,7 +48337,7 @@ var QUESTION_TEXT = 0;
 var SURVEYOR_DONE = 2;
 
 /***/ }),
-/* 56 */
+/* 48 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
