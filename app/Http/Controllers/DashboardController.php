@@ -77,6 +77,9 @@ class DashboardController extends Controller
                 $tp = Topic::where('code', $item->ma_de_tai)->first();
                 $sv = new Surveyor();
                 if($tp){
+                    $tp->rendered = 1;
+                    $tp->save();
+
                     $sv->topic_id = $tp->id;
                     $sv->url = url('/') . '/survey/' . base64_encode($tp->code . '-' . $urlId);
                     $sv->status = 0;

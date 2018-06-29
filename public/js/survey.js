@@ -48301,13 +48301,29 @@ new Vue({
         },
         checked: function checked(q, a, type) {
             var $this = this;
-            var item = _.find($this.results, function (o) {
-                var answers = [o.answer];
-                if ((o.answer + '').indexOf(',')) {
-                    answers = (o.answer + '').split(',');
+            var item = [];
+
+            if (type == 'checkbox') {
+                item = _.find($this.results, function (o) {
+                    var answers = [o.answer];
+
+                    if ((o.answer + '').indexOf(',')) {
+                        answers = (o.answer + '').split(',');
+                    }
+
+                    return o.question == q.id && _.includes(answers, '' + a.id);
+                });
+            } else {
+                item = _.find($this.results, function (o) {
+                    return o.question == q.id && o.answer == a.id;
+                });
+                if (!_.isEmpty(item)) {
+                    setTimeout(function () {
+                        console.log(q.id + ' ' + a.id);
+                        $('input[name="rad-' + q.id + '"][answer="anw-rad-' + a.id + '"]').prop('checked', true);
+                    }, 300);
                 }
-                return o.question == q.id && _.includes(answers, '' + a.id);
-            });
+            }
 
             return !_.isEmpty(item);
         },

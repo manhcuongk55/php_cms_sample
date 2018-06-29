@@ -67,7 +67,8 @@
                             <td v-for="a in cat.answers">
                                 <div class="" v-if="disableSubmit"
                                      title="Bạn đã hoàn thành khảo sát">
-                                    <input type="checkbox" disabled="" v-bind:checked="checked(q,a,'checkbox') ? 'checked' : ''"
+                                    <input type="checkbox" disabled=""
+                                           :checked="checked(q,a,'checkbox') ? 'checked' : ''"
                                            name="checkbox-question[]"
                                            @click="result(q, a, cat,'checkbox')" :value="a.id">
 
@@ -84,14 +85,15 @@
                             <td v-for="a in cat.answers">
                                 <div class="pretty p-default p-round p-fill" v-if="disableSubmit"
                                      title="Bạn đã hoàn thành khảo sát">
-                                    <input type="radio" :checked="checked(q, a)" disabled="" :name="'rad-' + q.id"
+                                    <input type="radio" :checked="checked(q,a,'')"
+                                           disabled="" :name="'rad-' + q.id" :answer="'anw-rad-'+ a.id"
                                            @click="result(q, a, cat)">
                                     <div class="state">
                                         <label></label>
                                     </div>
                                 </div>
                                 <div class="pretty p-default p-round p-fill" v-else>
-                                    <input type="radio" :checked="checked(q, a)" :name="'rad-' + q.id"
+                                    <input type="radio" :checked="checked(q, a,'')" :name="'rad-' + q.id"
                                            @click="result(q, a, cat)">
                                     <div class="state">
                                         <label></label>
